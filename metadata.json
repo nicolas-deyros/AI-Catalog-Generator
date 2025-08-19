@@ -1,0 +1,5 @@
+{
+  "name": "AI Catalog Creator",
+  "description": "An AI-powered tool to generate professional product catalogs. Users can upload product images, provide a style prompt, and the AI will design a beautiful online catalog layout, which can then be downloaded as a PDF.",
+  "requestFramePermissions": []
+}
