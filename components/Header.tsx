@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const Header: React.FC = () => {
@@ -9,7 +8,8 @@ const Header: React.FC = () => {
           AI Catalog Creator
         </h1>
         <p className="text-gray-500 mt-1">
-          Transform your product images into stunning, downloadable PDF catalogs.
+          Transform your product images into stunning, downloadable PDF
+          catalogs.
         </p>
       </div>
     </header>
