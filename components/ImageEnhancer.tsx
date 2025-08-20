@@ -54,8 +54,9 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
       );
       onItemsChange(updatedItems);
     } else {
-      console.error('Failed to enhance item:', result.error);
-      alert(`Sorry, there was an error enhancing the image: ${result.error}`);
+      const errorMessage = (result as { success: false; error: string }).error;
+      console.error('Failed to enhance item:', errorMessage);
+      alert(`Sorry, there was an error enhancing the image: ${errorMessage}`);
     }
 
     setIsEnhancing(false);

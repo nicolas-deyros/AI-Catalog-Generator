@@ -90,7 +90,7 @@ const App: React.FC = () => {
       setGeneratedHtml(result.data);
       goToStep(AppStep.PREVIEW); // Move to final step
     } else {
-      setError(result.error);
+      setError((result as { success: false; error: string }).error);
       goToStep(AppStep.STYLE); // Go back to the style step to allow re-trying
     }
   }, [stylePrompt, items, goToStep]);
