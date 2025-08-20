@@ -1,10 +1,12 @@
-import { GoogleGenAI, Type } from "@google/genai";
-import { CatalogItem, ImageEnhancement } from '../types';
+import { GoogleGenAI, Type } from '@google/genai';
+import { CatalogItem, ImageEnhancement, ServiceResponse } from '../types';
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-if (!API_KEY) {
-  throw new Error("API_KEY environment variable not set");
+if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
+  throw new Error(
+    'VITE_GEMINI_API_KEY environment variable not set. Please create a .env.local file and add your API key.'
+  );
 }
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });
@@ -13,8 +15,8 @@ export const enhanceImage = async (
   base64Image: string,
   mimeType: string,
   itemId: string,
-  userPrompt: string,
-): Promise<ImageEnhancement> => {
+  userPrompt: string
+): Promise<ServiceResponse<ImageEnhancement>> => {
   const uniqueClipPathId = `clip-path-${itemId}`;
   const prompt = `
     As an SVG expert, your task is to analyze the image and the user's request to create a JSON object.
@@ -35,7 +37,7 @@ export const enhanceImage = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: 'gemini-2.5-flash',
       contents: {
         parts: [
           {
@@ -48,14 +50,14 @@ export const enhanceImage = async (
         ],
       },
       config: {
-        responseMimeType: "application/json",
+        responseMimeType: 'application/json',
         responseSchema: {
           type: Type.OBJECT,
           properties: {
             svgClipPathElement: { type: Type.STRING },
             cssFilter: { type: Type.STRING },
           },
-          required: ["svgClipPathElement", "cssFilter"],
+          required: ['svgClipPathElement', 'cssFilter'],
         },
         // Allocate more tokens for the response to prevent truncation of complex SVG paths.
         maxOutputTokens: 8192,
@@ -70,8 +72,11 @@ export const enhanceImage = async (
     const lastBrace = jsonString.lastIndexOf('}');
 
     if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
-      console.error("Invalid JSON response from AI:", jsonString);
-      throw new Error("AI did not return a valid JSON object.");
+      console.error('Invalid JSON response from AI:', jsonString);
+      return {
+        success: false,
+        error: 'AI did not return a valid JSON object.',
+      };
     }
 
     jsonString = jsonString.substring(firstBrace, lastBrace + 1);
@@ -83,26 +88,40 @@ export const enhanceImage = async (
 
     // Validate that the AI returned strings, not objects or other types.
     // This prevents "[object Object]" errors during rendering.
-    if (typeof svgClipPathElement !== 'string' || typeof cssFilter !== 'string') {
-      console.error("AI response properties are not strings:", result);
-      throw new Error("AI response has incorrect data types for schema properties.");
+    if (
+      typeof svgClipPathElement !== 'string' ||
+      typeof cssFilter !== 'string'
+    ) {
+      console.error('AI response properties are not strings:', result);
+      return {
+        success: false,
+        error: 'AI response has incorrect data types for schema properties.',
+      };
     }
-    
+
     return {
-      clipPathId: uniqueClipPathId,
-      clipPathSvg: svgClipPathElement,
-      filterCss: cssFilter,
+      success: true,
+      data: {
+        clipPathId: uniqueClipPathId,
+        clipPathSvg: svgClipPathElement,
+        filterCss: cssFilter,
+      },
     };
   } catch (error) {
-    console.error("Error enhancing image:", error);
-    throw new Error("Failed to enhance image with AI.");
+    console.error('Error enhancing image:', error);
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred.';
+    return {
+      success: false,
+      error: `Failed to enhance image with AI: ${errorMessage}`,
+    };
   }
 };
 
 export const generateCatalogLayout = async (
   prompt: string,
   items: CatalogItem[]
-): Promise<string> => {
+): Promise<ServiceResponse<string>> => {
   const productList = items
     .map((item, index) => `${index + 1}. ${item.name}`)
     .join('\n');
@@ -130,15 +149,20 @@ export const generateCatalogLayout = async (
     10. For each product, generate a compelling, short (2-3 sentences) marketing description based on its name.
     11. The entire output must be a single block of clean, well-formatted HTML code, consisting of the series of page divs. Do not wrap it in markdown backticks.
   `;
-  
+
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: 'gemini-2.5-flash',
       contents: detailedPrompt,
     });
-    return response.text;
+    return { success: true, data: response.text };
   } catch (error) {
-    console.error("Error generating catalog layout:", error);
-    return "<div class='text-red-500 p-4'>Sorry, an error occurred while generating the catalog. Please try again.</div>";
+    console.error('Error generating catalog layout:', error);
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred.';
+    return {
+      success: false,
+      error: `Sorry, an error occurred while generating the catalog: ${errorMessage}`,
+    };
   }
 };
