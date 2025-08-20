@@ -21,3 +21,7 @@ export interface CatalogItem {
   isEnhancing?: boolean;
   enhancement?: ImageEnhancement;
 }
+
+export type ServiceResponse<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };
