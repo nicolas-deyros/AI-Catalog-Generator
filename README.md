@@ -92,8 +92,44 @@ This project includes several scripts to help with development and code quality.
 - `npm run build`: Builds the application for production.
 - `npm run preview`: Previews the production build locally.
 - `npm run lint`: Runs both ESLint and Stylelint to check for code quality issues.
+- `npm run lint:fix`: Automatically fixes linting issues where possible.
 - `npm run format`: Formats all files with Prettier.
 - `npm run format:check`: Checks for formatting issues without modifying files.
+- `npm run type-check`: Runs TypeScript type checking without emitting files.
+- `npm run pre-commit`: Manually runs the pre-commit hooks (lint-staged).
+
+## Git Hooks & Code Quality
+
+This project uses Husky and lint-staged to ensure code quality. The following git hooks are automatically set up:
+
+### Pre-commit Hook
+
+- Runs ESLint and fixes issues automatically on staged `.ts/.tsx` files
+- Formats code with Prettier on staged files
+- Fixes Stylelint issues on CSS files
+- Ensures all committed code meets quality standards
+
+### Commit Message Hook
+
+- Enforces conventional commit message format
+- Examples of valid commit messages:
+  - `feat: add image enhancement feature`
+  - `fix: resolve blob URL cleanup issue`
+  - `docs: update installation instructions`
+  - `refactor: simplify PDF generation logic`
+
+### Pre-push Hook
+
+- Runs TypeScript type checking
+- Ensures the project builds successfully
+- Prevents pushing broken code
+
+**Note:** If you need to skip hooks in emergency situations, use `--no-verify` flag:
+
+```bash
+git commit --no-verify -m "emergency fix"
+git push --no-verify
+```
 
 ## Further Development
 

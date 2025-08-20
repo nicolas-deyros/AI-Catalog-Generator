@@ -12,7 +12,24 @@ const fileToResizedBase64 = (
   maxSize: number = 512
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
-    if (!file.type.startsWith('image/')) {
+    // Check if it's an image file by MIME type or file extension
+    const supportedExtensions = [
+      '.jpg',
+      '.jpeg',
+      '.png',
+      '.gif',
+      '.bmp',
+      '.webp',
+      '.heic',
+      '.heif',
+    ];
+    const fileExtension = file.name
+      .toLowerCase()
+      .substring(file.name.lastIndexOf('.'));
+    const isImageByMime = file.type.startsWith('image/');
+    const isImageByExtension = supportedExtensions.includes(fileExtension);
+
+    if (!isImageByMime && !isImageByExtension) {
       return reject(
         new Error(`File is not a supported image type: ${file.name}`)
       );

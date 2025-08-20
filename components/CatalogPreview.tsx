@@ -109,6 +109,29 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({
           backgroundColor: null, // Make background transparent
           windowWidth: pageElement.scrollWidth,
           windowHeight: pageElement.scrollHeight,
+          onclone: (clonedDoc) => {
+            // Fix oklch color compatibility by converting to rgb
+            const style = clonedDoc.createElement('style');
+            style.textContent = `
+              * {
+                --tw-gradient-from: rgb(99 102 241) !important;
+                --tw-gradient-to: rgb(147 51 234) !important;
+              }
+              /* Convert common Tailwind oklch colors to rgb equivalents */
+              .text-gray-600 { color: rgb(75 85 99) !important; }
+              .text-gray-700 { color: rgb(55 65 81) !important; }
+              .text-gray-800 { color: rgb(31 41 55) !important; }
+              .text-gray-900 { color: rgb(17 24 39) !important; }
+              .bg-white { background-color: rgb(255 255 255) !important; }
+              .bg-gray-50 { background-color: rgb(249 250 251) !important; }
+              .bg-gray-100 { background-color: rgb(243 244 246) !important; }
+              .bg-indigo-600 { background-color: rgb(79 70 229) !important; }
+              .bg-indigo-700 { background-color: rgb(67 56 202) !important; }
+              .border-gray-200 { border-color: rgb(229 231 235) !important; }
+              .border-gray-300 { border-color: rgb(209 213 219) !important; }
+            `;
+            clonedDoc.head.appendChild(style);
+          },
         });
 
         printContainer.removeChild(pageElement);

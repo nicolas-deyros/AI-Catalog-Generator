@@ -126,6 +126,7 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
                   </h4>
                   <div className="aspect-square w-full bg-white border rounded-lg flex items-center justify-center overflow-hidden">
                     <img
+                      key={`original-${selectedItem.id}`}
                       src={selectedItem.objectURL}
                       alt="Original"
                       className="max-h-full max-w-full"
@@ -144,6 +145,7 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
                       </div>
                     ) : (
                       <img
+                        key={`enhanced-${selectedItem.id}`}
                         src={selectedItem.objectURL}
                         alt="Enhanced"
                         className="max-h-full max-w-full"

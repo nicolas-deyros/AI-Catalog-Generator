@@ -43,11 +43,13 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    // Cleanup object URLs when component unmounts or items change
+    // Only cleanup on unmount - don't try to be smart about individual URL cleanup
+    // This prevents accidentally revoking URLs that are still in use
     return () => {
       items.forEach((item) => URL.revokeObjectURL(item.objectURL));
     };
-  }, [items]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array - only run on mount/unmount
 
   const handleNextStep = () => {
     if (step === AppStep.UPLOAD && items.length > 0) {

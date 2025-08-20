@@ -66,22 +66,61 @@ export const enhanceImage = async (
     });
 
     let jsonString = response.text.trim();
-    // The model can sometimes wrap the JSON in markdown or add extra text.
-    // This logic finds and extracts the JSON object from the response string.
-    const firstBrace = jsonString.indexOf('{');
-    const lastBrace = jsonString.lastIndexOf('}');
 
-    if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
-      console.error('Invalid JSON response from AI:', jsonString);
-      return {
-        success: false,
-        error: 'AI did not return a valid JSON object.',
-      };
+    // Try to parse the response directly first (since we're using responseMimeType: 'application/json')
+    let result;
+    try {
+      result = JSON.parse(jsonString);
+    } catch {
+      // If direct parsing fails, try to extract JSON from potential markdown wrapping
+      const firstBrace = jsonString.indexOf('{');
+      if (firstBrace === -1) {
+        console.error('No JSON object found in AI response:', jsonString);
+        return {
+          success: false,
+          error: 'AI did not return a valid JSON object.',
+        };
+      }
+
+      // Find the matching closing brace by counting braces
+      let braceCount = 0;
+      let lastBrace = -1;
+      for (let i = firstBrace; i < jsonString.length; i++) {
+        if (jsonString[i] === '{') {
+          braceCount++;
+        } else if (jsonString[i] === '}') {
+          braceCount--;
+          if (braceCount === 0) {
+            lastBrace = i;
+            break;
+          }
+        }
+      }
+
+      if (lastBrace === -1) {
+        console.error('Invalid JSON structure in AI response:', jsonString);
+        return {
+          success: false,
+          error: 'AI did not return a valid JSON object.',
+        };
+      }
+
+      jsonString = jsonString.substring(firstBrace, lastBrace + 1);
+
+      try {
+        result = JSON.parse(jsonString);
+      } catch (parseError) {
+        console.error(
+          'Failed to parse extracted JSON:',
+          jsonString,
+          parseError
+        );
+        return {
+          success: false,
+          error: 'AI did not return a valid JSON object.',
+        };
+      }
     }
-
-    jsonString = jsonString.substring(firstBrace, lastBrace + 1);
-
-    const result = JSON.parse(jsonString);
 
     const svgClipPathElement = result.svgClipPathElement;
     const cssFilter = result.cssFilter;
