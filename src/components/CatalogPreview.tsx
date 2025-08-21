@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { CatalogItem } from '@types';
 import Icon from '@components/Icon';
 import Loader from '@components/Loader';
+import Dialog from '@components/Dialog';
 
 // Declare third-party libraries for TypeScript
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,6 +25,17 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadMessage, setDownloadMessage] = useState('Downloading...');
+  const [dialogState, setDialogState] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    type: 'error' | 'warning' | 'info' | 'success';
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info',
+  });
 
   const processedHtml = useMemo(() => {
     let currentHtml = htmlContent;
@@ -156,7 +168,13 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({
       pdf.save('ai-catalog.pdf');
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('Sorry, there was an error creating the PDF. Please try again.');
+      setDialogState({
+        isOpen: true,
+        title: 'PDF Generation Error',
+        message:
+          'Sorry, there was an error creating the PDF. Please try again.',
+        type: 'error',
+      });
     } finally {
       document.body.removeChild(printContainer);
       setIsDownloading(false);
@@ -283,6 +301,14 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({
           </div>
         )}
       </div>
+
+      <Dialog
+        isOpen={dialogState.isOpen}
+        onClose={() => setDialogState((prev) => ({ ...prev, isOpen: false }))}
+        title={dialogState.title}
+        message={dialogState.message}
+        type={dialogState.type}
+      />
     </div>
   );
 };

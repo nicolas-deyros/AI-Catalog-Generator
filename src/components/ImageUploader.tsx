@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { CatalogItem } from '@types';
 import Icon from '@components/Icon';
+import Dialog from '@components/Dialog';
 
 interface ImageUploaderProps {
   items: CatalogItem[];
@@ -89,6 +90,17 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   onItemsChange,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [dialogState, setDialogState] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    type: 'error' | 'warning' | 'info' | 'success';
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info',
+  });
 
   const handleFileChange = useCallback(
     async (files: FileList | null) => {
@@ -125,9 +137,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       }
 
       if (failedFiles.length > 0) {
-        alert(
-          `Could not process ${failedFiles.length} file(s). They may be corrupted or in an unsupported format. Please check the console for details.`
-        );
+        setDialogState({
+          isOpen: true,
+          title: 'Upload Error',
+          message: `Could not process ${failedFiles.length} file(s). They may be corrupted or in an unsupported format. Please check the console for details.`,
+          type: 'error',
+        });
       }
     },
     [items, onItemsChange]
@@ -246,6 +261,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           </div>
         </div>
       )}
+
+      <Dialog
+        isOpen={dialogState.isOpen}
+        onClose={() => setDialogState((prev) => ({ ...prev, isOpen: false }))}
+        title={dialogState.title}
+        message={dialogState.message}
+        type={dialogState.type}
+      />
     </div>
   );
 };
