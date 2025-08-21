@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { CatalogItem } from '../types';
-import Icon from './Icon';
-import Loader from './Loader';
+import { CatalogItem } from '@types';
+import Icon from '@components/Icon';
+import Loader from '@components/Loader';
 
 // Declare third-party libraries for TypeScript
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

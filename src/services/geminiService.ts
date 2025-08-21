@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { CatalogItem, ImageEnhancement, ServiceResponse } from '../types';
+import { CatalogItem, ImageEnhancement, ServiceResponse } from '@types';
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
@@ -65,7 +65,12 @@ export const enhanceImage = async (
       },
     });
 
-    let jsonString = response.text.trim();
+    const responseText = response.text?.trim();
+    if (!responseText) {
+      throw new Error('Empty response from AI service');
+    }
+
+    let jsonString = responseText;
 
     // Try to parse the response directly first (since we're using responseMimeType: 'application/json')
     let result;

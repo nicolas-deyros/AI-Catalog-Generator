@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { CatalogItem } from '../types';
-import { enhanceImage } from '../services/geminiService';
-import Icon from './Icon';
+import { CatalogItem } from '@types';
+import { enhanceImage } from '@services/geminiService';
+import Icon from '@components/Icon';
 
 interface ImageEnhancerProps {
   items: CatalogItem[];

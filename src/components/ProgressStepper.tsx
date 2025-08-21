@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppStep } from '../types';
-import Icon from './Icon';
+import { AppStep } from '@types';
+import Icon from '@components/Icon';
 
 interface StepperProps {
   currentStep: AppStep;

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { CatalogItem } from '../types';
-import Icon from './Icon';
+import { CatalogItem } from '@types';
+import Icon from '@components/Icon';
 
 interface ImageUploaderProps {
   items: CatalogItem[];

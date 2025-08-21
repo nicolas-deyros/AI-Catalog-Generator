@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { AppStep, CatalogItem } from './types';
-import { generateCatalogLayout } from './services/geminiService';
+import { AppStep, CatalogItem } from '@types';
+import { generateCatalogLayout } from '@services/geminiService';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useAppSteps } from './hooks/useAppSteps';
+import { useAppSteps } from '@hooks/useAppSteps';
 
-import Header from './components/Header';
-import ImageUploader from './components/ImageUploader';
-import ImageEnhancer from './components/ImageEnhancer';
-import StylePrompt from './components/StylePrompt';
-import CatalogPreview from './components/CatalogPreview';
-import Loader from './components/Loader';
-import Icon from './components/Icon';
-import ProgressStepper from './components/ProgressStepper';
+import Header from '@components/Header';
+import ImageUploader from '@components/ImageUploader';
+import ImageEnhancer from '@components/ImageEnhancer';
+import StylePrompt from '@components/StylePrompt';
+import CatalogPreview from '@components/CatalogPreview';
+import Loader from '@components/Loader';
+import Icon from '@components/Icon';
+import ProgressStepper from '@components/ProgressStepper';
 
 const ErrorFallback = ({ error }: { error: Error }) => (
   <div
