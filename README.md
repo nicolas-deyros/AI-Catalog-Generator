@@ -91,7 +91,7 @@ This project includes several scripts to help with development and code quality.
 - `npm run dev`: Starts the development server.
 - `npm run build`: Builds the application for production.
 - `npm run preview`: Previews the production build locally.
-- `npm run lint`: Runs both ESLint and Stylelint to check for code quality issues.
+- `npm run lint`: Runs both ESLint and stylelint to check for code quality issues.
 - `npm run lint:fix`: Automatically fixes linting issues where possible.
 - `npm run format`: Formats all files with Prettier.
 - `npm run format:check`: Checks for formatting issues without modifying files.
@@ -100,13 +100,13 @@ This project includes several scripts to help with development and code quality.
 
 ## Git Hooks & Code Quality
 
-This project uses Husky and lint-staged to ensure code quality. The following git hooks are automatically set up:
+This project uses Husky and lint-staged to ensure code quality. The following Git hooks are automatically set up:
 
 ### Pre-commit Hook
 
 - Runs ESLint and fixes issues automatically on staged `.ts/.tsx` files
 - Formats code with Prettier on staged files
-- Fixes Stylelint issues on CSS files
+- Fixes stylelint issues on CSS files
 - Ensures all committed code meets quality standards
 
 ### Commit Message Hook

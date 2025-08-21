@@ -7,10 +7,11 @@
     "dev": "vite --open",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "npm run lint:js && npm run lint:css",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:text",
     "lint:js": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:css": "stylelint \"**/*.{ts,tsx}\"",
-    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix",
+    "lint:text": "textlint \"**/*.{md,txt}\"",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix && npm run lint:text -- --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit",
@@ -25,7 +26,11 @@
     "*.{css,scss,sass}": [
       "stylelint --fix"
     ],
-    "*.{json,md}": [
+    "*.{md,txt}": [
+      "textlint --fix",
+      "prettier --write"
+    ],
+    "*.json": [
       "prettier --write"
     ]
   },
@@ -62,6 +67,13 @@
     "stylelint": "^16.23.1",
     "stylelint-config-standard": "^39.0.0",
     "stylelint-config-tailwindcss": "^1.0.0",
+    "textlint": "^15.2.2",
+    "textlint-rule-alex": "^5.0.0",
+    "textlint-rule-common-misspellings": "^1.0.1",
+    "textlint-rule-preset-ja-technical-writing": "^12.0.2",
+    "textlint-rule-spellcheck-tech-word": "^5.0.0",
+    "textlint-rule-terminology": "^5.2.15",
+    "textlint-rule-write-good": "^2.0.0",
     "typescript": "~5.8.2",
     "vite": "npm:rolldown-vite@latest"
   }

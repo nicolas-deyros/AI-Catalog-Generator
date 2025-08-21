@@ -12,8 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial version of the AI Catalog Creator application.
 - Core features: image upload, AI-powered image enhancement, and AI-powered catalog generation.
 - Comprehensive error handling and a global error boundary.
-- ESLint, Stylelint, and Prettier for code quality and consistent formatting.
-- NPM scripts for running linters and formatters.
+- ESLint, stylelint, and Prettier for code quality and consistent formatting.
+- Npm scripts for running linters and formatters.
 - `TESTING_STRATEGY.md` with a detailed proposal for testing.
 - `RECOMMENDATIONS.md` with suggestions for future improvements.
 

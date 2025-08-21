@@ -34,7 +34,7 @@ To get started with the development environment, please follow the instructions 
 
 ### Code Quality Checks
 
-We use ESLint, Stylelint, and Prettier to maintain code quality and a consistent style.
+We use ESLint, stylelint, and Prettier to maintain code quality and a consistent style.
 
 - **To run all linters:**
 

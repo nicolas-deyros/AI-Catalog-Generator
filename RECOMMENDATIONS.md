@@ -47,7 +47,7 @@ To ensure code quality and automate the deployment process, setting up a CI/CD p
 
 ## 5. Other Recommended Linters
 
-You asked for recommendations on other linters. The most important ones for this project (ESLint for TypeScript/React and Stylelint for styles) have been installed. The other key tool I've installed is **Prettier**.
+You asked for recommendations on other linters. The most important ones for this project (ESLint for TypeScript/React and stylelint for styles) have been installed. The other key tool I've installed is **Prettier**.
 
 - **Prettier (Code Formatter):** While technically a formatter and not a linter, Prettier is an essential tool that works alongside linters. It enforces a consistent code style by automatically formatting the code. This eliminates debates about code style and ensures the codebase is clean and readable. I have already installed and configured it for this project.
 
