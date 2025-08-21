@@ -1,0 +1,20 @@
+[
+  {
+    "id": "test-product-1",
+    "name": "Secure Test Product 1",
+    "description": "A sample product for testing purposes",
+    "category": "Electronics",
+    "price": "$29.99",
+    "features": ["Feature 1", "Feature 2", "Feature 3"],
+    "imageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+  },
+  {
+    "id": "test-product-2",
+    "name": "Secure Test Product 2",
+    "description": "Another sample product for testing",
+    "category": "Home & Garden",
+    "price": "$19.99",
+    "features": ["Eco-friendly", "Durable", "Affordable"],
+    "imageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+  }
+]

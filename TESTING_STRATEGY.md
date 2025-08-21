@@ -61,6 +61,14 @@ Component tests should verify that components render correctly and respond to us
   - Test that the text area's value is controlled by the `prompt` prop.
   - Test that the `setPrompt` function is called on text area input.
 
+- **`Dialog.tsx`:**
+  - Test that the dialog renders with the correct content and type styling.
+  - Test that clicking the close button calls the `onClose` prop.
+  - Test that pressing the ESC key calls the `onClose` prop.
+  - Test that the dialog shows/hides based on the `isOpen` prop.
+  - Test different dialog types (info, warning, error, success) render with appropriate icons and styling.
+  - Test accessibility features like focus management and ARIA attributes.
+
 ## 4. End-to-end (end-to-end) Tests
 
 End-to-end tests simulate a real user's journey through the application. A primary end-to-end test case would be:

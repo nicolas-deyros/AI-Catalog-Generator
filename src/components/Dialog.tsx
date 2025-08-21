@@ -68,6 +68,9 @@ const Dialog: React.FC<DialogProps> = ({
     <dialog
       ref={dialogRef}
       className="bg-transparent border-none outline-none p-0 m-0 max-w-none w-full h-full backdrop:bg-black backdrop:bg-opacity-20"
+      aria-labelledby="dialog-title"
+      aria-describedby="dialog-message"
+      aria-modal="true"
     >
       {/* Centered content container */}
       <div className="flex items-center justify-center min-h-full p-4">
