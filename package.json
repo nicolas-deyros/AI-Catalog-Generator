@@ -7,10 +7,11 @@
     "dev": "vite --open",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "npm run lint:js && npm run lint:css && npm run lint:text",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:text && npm run lint:spell",
     "lint:js": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:css": "stylelint \"**/*.{ts,tsx}\"",
     "lint:text": "textlint \"**/*.{md,txt}\"",
+    "lint:spell": "cspell \"**/*.{ts,tsx,js,jsx,html,css,json,md}\"",
     "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix && npm run lint:text -- --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -20,6 +21,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
+      "cspell --no-progress",
       "eslint --fix",
       "prettier --write"
     ],
@@ -44,6 +46,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@cspell/eslint-plugin": "^9.2.0",
     "@eslint/js": "^9.33.0",
     "@types/node": "^22.14.0",
     "@types/react": "^19.1.10",
@@ -51,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "^8.40.0",
     "@typescript-eslint/parser": "^8.40.0",
     "@vitejs/plugin-react-swc": "^4.0.1",
+    "cspell": "^9.2.0",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsx-a11y": "^6.10.2",
