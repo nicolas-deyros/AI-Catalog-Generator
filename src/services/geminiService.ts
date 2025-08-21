@@ -199,7 +199,11 @@ export const generateCatalogLayout = async (
       model: 'gemini-2.5-flash',
       contents: detailedPrompt,
     });
-    return { success: true, data: response.text };
+    const responseText = response.text;
+    if (!responseText) {
+      throw new Error('Empty response from AI service');
+    }
+    return { success: true, data: responseText };
   } catch (error) {
     console.error('Error generating catalog layout:', error);
     const errorMessage =

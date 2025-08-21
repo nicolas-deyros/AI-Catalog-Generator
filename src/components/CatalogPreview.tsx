@@ -109,7 +109,7 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({
           backgroundColor: null, // Make background transparent
           windowWidth: pageElement.scrollWidth,
           windowHeight: pageElement.scrollHeight,
-          onclone: (clonedDoc) => {
+          onclone: (clonedDoc: Document) => {
             // Fix oklch color compatibility by converting to rgb
             const style = clonedDoc.createElement('style');
             style.textContent = `

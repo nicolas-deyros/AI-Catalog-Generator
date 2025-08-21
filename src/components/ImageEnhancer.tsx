@@ -64,9 +64,14 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
 
   const handleRevert = () => {
     if (!selectedItemId) return;
-    const updatedItems = items.map((item) =>
-      item.id === selectedItemId ? { ...item, enhancement: undefined } : item
-    );
+    const updatedItems = items.map((item) => {
+      if (item.id === selectedItemId) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { enhancement, ...itemWithoutEnhancement } = item;
+        return itemWithoutEnhancement;
+      }
+      return item;
+    });
     onItemsChange(updatedItems);
   };
 
