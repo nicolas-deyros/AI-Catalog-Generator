@@ -1,17 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner## Technologies Used
-
-- **Frontend:** [React](https://react.dev/) 19.1.1, [TypeScript](https://www.typescriptlang.org/) ~5.8.2, [Vite](https://vitejs.dev/) 6+ with Rolldown
-- **AI:** [Google Gemini](https://ai.google.dev/) via the `@google/genai` SDK
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) 4.1.12
-- **Linting & Code Quality:**
-  - [ESLint](https://eslint.org/) 9.33.0 with TypeScript support
-  - [stylelint](https://stylelint.io/) for CSS-in-JS linting
-  - [textlint](https://textlint.github.io/) for documentation quality
-  - [cspell](https://cspell.org/) for comprehensive spell checking
-- **Formatting:** [Prettier](https://prettier.io/) with consistent code style
-- **Git Hooks:** [Husky](https://typicode.github.io/husky/) 9.1.7 with lint-staged for pre-commit quality checks
-- **Commit Standards:** [Commitlint](https://commitlint.js.org/) for conventional commit messageshttps://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
 # AI Catalog Creator
