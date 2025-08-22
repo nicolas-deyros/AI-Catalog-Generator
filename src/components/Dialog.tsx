@@ -58,10 +58,10 @@ const Dialog: React.FC<DialogProps> = ({
   };
 
   const iconNames = {
-    error: 'x-circle',
-    warning: 'alert-triangle',
-    info: 'info-circle',
-    success: 'check-circle',
+    error: 'x-circle' as const,
+    warning: 'alert-triangle' as const,
+    info: 'info-circle' as const,
+    success: 'check-circle' as const,
   };
 
   return (

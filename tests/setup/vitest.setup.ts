@@ -107,13 +107,34 @@ vi.mock('../../src/config/env', () => ({
 }));
 
 // Security: Mock file reading capabilities
-global.FileReader = class MockFileReader {
-  result: string | ArrayBuffer | null = null;
-  error: Error | null = null;
-  readyState: number = 0;
+global.FileReader = class MockFileReader implements FileReader {
+  static readonly EMPTY = 0;
+  static readonly LOADING = 1;
+  static readonly DONE = 2;
 
-  onload: ((event: ProgressEvent<FileReader>) => void) | null = null;
-  onerror: ((event: ProgressEvent<FileReader>) => void) | null = null;
+  readonly EMPTY = 0;
+  readonly LOADING = 1;
+  readonly DONE = 2;
+
+  result: string | ArrayBuffer | null = null;
+  error: DOMException | null = null;
+  readyState: 0 | 1 | 2 = 0;
+
+  onabort: ((this: FileReader, ev: ProgressEvent<FileReader>) => void) | null =
+    null;
+  onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => void) | null =
+    null;
+  onload: ((this: FileReader, ev: ProgressEvent<FileReader>) => void) | null =
+    null;
+  onloadend:
+    | ((this: FileReader, ev: ProgressEvent<FileReader>) => void)
+    | null = null;
+  onloadstart:
+    | ((this: FileReader, ev: ProgressEvent<FileReader>) => void)
+    | null = null;
+  onprogress:
+    | ((this: FileReader, ev: ProgressEvent<FileReader>) => void)
+    | null = null;
 
   readAsDataURL(): void {
     // Security: Simulate safe file reading
@@ -121,10 +142,39 @@ global.FileReader = class MockFileReader {
       this.readyState = 2;
       this.result =
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
-      this.onload?.({ target: this } as ProgressEvent<FileReader>);
+      if (this.onload) {
+        this.onload({
+          target: this as FileReader,
+          lengthComputable: false,
+          loaded: 0,
+          total: 0,
+        } as unknown as ProgressEvent<FileReader>);
+      }
     }, 0);
   }
-};
+
+  readAsText(): void {
+    /* mock */
+  }
+  readAsArrayBuffer(): void {
+    /* mock */
+  }
+  readAsBinaryString(): void {
+    /* mock */
+  }
+  abort(): void {
+    /* mock */
+  }
+  addEventListener(): void {
+    /* mock */
+  }
+  removeEventListener(): void {
+    /* mock */
+  }
+  dispatchEvent(): boolean {
+    return true;
+  }
+} as unknown as typeof FileReader;
 
 // Security: Mock URL.createObjectURL to prevent actual blob creation
 global.URL.createObjectURL = vi.fn(() => 'blob:mock-url');
