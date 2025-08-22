@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CatalogItem } from '@types';
 import { enhanceImage } from '@services/geminiService';
 import Icon from '@components/Icon';
+import Dialog from '@components/Dialog';
 
 interface ImageEnhancerProps {
   items: CatalogItem[];
@@ -15,6 +16,17 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [prompt, setPrompt] = useState('');
   const [isEnhancing, setIsEnhancing] = useState(false);
+  const [dialogState, setDialogState] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    type: 'error' | 'warning' | 'info' | 'success';
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info',
+  });
 
   const selectedItem = items.find((item) => item.id === selectedItemId);
 
@@ -56,7 +68,12 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
     } else {
       const errorMessage = (result as { success: false; error: string }).error;
       console.error('Failed to enhance item:', errorMessage);
-      alert(`Sorry, there was an error enhancing the image: ${errorMessage}`);
+      setDialogState({
+        isOpen: true,
+        title: 'Enhancement Error',
+        message: `Sorry, there was an error enhancing the image: ${errorMessage}`,
+        type: 'error',
+      });
     }
 
     setIsEnhancing(false);
@@ -209,6 +226,14 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
           )}
         </div>
       </div>
+
+      <Dialog
+        isOpen={dialogState.isOpen}
+        onClose={() => setDialogState((prev) => ({ ...prev, isOpen: false }))}
+        title={dialogState.title}
+        message={dialogState.message}
+        type={dialogState.type}
+      />
     </div>
   );
 };

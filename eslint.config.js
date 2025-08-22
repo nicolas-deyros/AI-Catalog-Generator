@@ -5,6 +5,7 @@ import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginReactRefresh from 'eslint-plugin-react-refresh';
+import cspellPlugin from '@cspell/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
@@ -29,6 +30,7 @@ export default [
       '@typescript-eslint': tseslint,
       'react-hooks': pluginReactHooks,
       'jsx-a11y': pluginJsxA11y,
+      '@cspell': cspellPlugin,
     },
     rules: {
       ...pluginReact.configs.recommended.rules,
@@ -41,6 +43,7 @@ export default [
       ],
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+      '@cspell/spellchecker': ['warn', {}],
     },
     settings: {
       react: {

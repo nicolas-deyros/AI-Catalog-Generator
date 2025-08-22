@@ -34,7 +34,17 @@ To get started with the development environment, please follow the instructions 
 
 ### Code Quality Checks
 
-We use ESLint, Stylelint, and Prettier to maintain code quality and a consistent style.
+We maintain high code quality through multiple automated checks:
+
+#### Linting Tools
+
+- **ESLint**: TypeScript and React code linting with spell checking integration
+- **stylelint**: CSS and styled-components linting
+- **textlint**: Documentation quality and terminology consistency
+- **cspell**: Comprehensive spell checking for source code and documentation
+- **Prettier**: Code formatting
+
+#### Running Quality Checks
 
 - **To run all linters:**
 
@@ -42,12 +52,40 @@ We use ESLint, Stylelint, and Prettier to maintain code quality and a consistent
   npm run lint
   ```
 
+- **To run individual linters:**
+
+  ```bash
+  npm run lint:js      # ESLint for JavaScript/TypeScript
+  npm run lint:css     # stylelint for CSS
+  npm run lint:text    # textlint for documentation
+  npm run lint:spell   # cspell for spell checking
+  ```
+
 - **To automatically format your code:**
+
   ```bash
   npm run format
   ```
 
-Please ensure that all checks pass before submitting a pull request.
+- **To fix auto-fixable issues:**
+  ```bash
+  npm run lint:js:fix    # Fix ESLint issues
+  npm run lint:css:fix   # Fix stylelint issues
+  npm run lint:text:fix  # Fix textlint issues
+  ```
+
+#### Pre-commit Hooks
+
+The project uses Husky with lint-staged to automatically run quality checks before each commit. This ensures that only properly formatted and linted code is committed.
+
+#### Spell Checking
+
+When adding new technical terms, acronyms, or project-specific vocabulary:
+
+1. Add them to the `words` array in `cspell.json`
+2. Ensure consistency across documentation using textlint rules
+
+Please ensure that **all checks pass** before submitting a pull request.
 
 ### Commit Messages
 

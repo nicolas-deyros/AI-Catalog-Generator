@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { CatalogItem, ImageEnhancement, ServiceResponse } from '@types';
+import { CatalogItem, ImageEnhancement, ServiceResponse } from '../types/types';
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 

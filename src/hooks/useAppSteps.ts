@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AppStep } from '@types';
+import { AppStep } from '../types/types';
 
 interface UseAppStepsProps {
   initialStep?: AppStep;

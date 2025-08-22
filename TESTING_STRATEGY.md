@@ -6,7 +6,7 @@ The testing strategy is divided into three layers:
 
 1.  **Unit Tests:** To test individual functions and logic in isolation.
 2.  **Component Tests:** To test React components' rendering and behavior.
-3.  **End-to-End (E2E) Tests:** To test complete user flows from the user's perspective.
+3.  **End-to-end (end-to-end) Tests:** To test complete user flows from the user's perspective.
 
 ## 1. Recommended Tooling
 
@@ -15,7 +15,7 @@ For a Vite-based React project like this, the following testing libraries are re
 - **Test Runner & Assertion Library:** [**Vitest**](https://vitest.dev/) - It's a fast test runner that is designed to work with Vite out-of-the-box. It's compatible with Jest's API, making it easy to learn.
 - **Component Testing:** [**React Testing Library**](https://testing-library.com/docs/react-testing-library/intro/) - A library for testing React components in a way that resembles how users interact with them.
 - **API Mocking:** [**Mock Service Worker (MSW)**](https://mswjs.io/) - For mocking API requests in both development and testing environments. This is crucial for testing the `geminiService` without making actual API calls.
-- **End-to-End Testing:** [**Playwright**](https://playwright.dev/) or [**Cypress**](https://www.cypress.io/) - Both are excellent choices for E2E testing. Playwright offers great cross-browser support, while Cypress is known for its developer-friendly experience.
+- **End-to-end Testing:** [**Playwright**](https://playwright.dev/) or [**Cypress**](https://www.cypress.io/) - Both are excellent choices for end-to-end testing. Playwright offers great cross-browser support, while Cypress is known for its developer-friendly experience.
 
 ### Installation
 
@@ -61,9 +61,17 @@ Component tests should verify that components render correctly and respond to us
   - Test that the text area's value is controlled by the `prompt` prop.
   - Test that the `setPrompt` function is called on text area input.
 
-## 4. End-to-End (E2E) Tests
+- **`Dialog.tsx`:**
+  - Test that the dialog renders with the correct content and type styling.
+  - Test that clicking the close button calls the `onClose` prop.
+  - Test that pressing the ESC key calls the `onClose` prop.
+  - Test that the dialog shows/hides based on the `isOpen` prop.
+  - Test different dialog types (info, warning, error, success) render with appropriate icons and styling.
+  - Test accessibility features like focus management and ARIA attributes.
 
-E2E tests simulate a real user's journey through the application. A primary E2E test case would be:
+## 4. End-to-end (end-to-end) Tests
+
+End-to-end tests simulate a real user's journey through the application. A primary end-to-end test case would be:
 
 1.  **The Catalog Creation Flow:**
     - The user visits the application.
