@@ -18,7 +18,8 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
 
   // Security: Opt out of parallel tests on CI for better isolation
-  workers: process.env.CI ? 1 : undefined,
+  // CI configuration
+  workers: process.env.CI ? 1 : '50%',
 
   // Security: Reporter configuration
   reporter: process.env.CI ? 'github' : 'html',

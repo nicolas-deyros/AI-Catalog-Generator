@@ -143,7 +143,7 @@ test.describe('User Workflow E2E Tests', () => {
 
       // Check that script didn't execute
       const xssExecuted = await page.evaluate(
-        () => (window as Record<string, unknown>).xssTest
+        () => (window as unknown as Record<string, unknown>).xssTest
       );
       expect(xssExecuted).toBeFalsy();
     }
@@ -227,7 +227,7 @@ test.describe('User Workflow E2E Tests', () => {
     await expect(page.locator('h1')).toBeVisible();
 
     // Then simulate offline
-    await page.setOfflineMode(true);
+    await page.context().setOffline(true);
 
     // Refresh page
     await page.reload();
@@ -243,6 +243,6 @@ test.describe('User Workflow E2E Tests', () => {
     }
 
     // Reset to online
-    await page.setOfflineMode(false);
+    await page.context().setOffline(false);
   });
 });
