@@ -103,8 +103,11 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
         </h2>
       </div>
       <p className="text-sm text-gray-500 mb-4">
-        Select an image and tell the AI how to improve it. Good prompts lead to
-        great results!
+        Select an image and tell the AI how to improve it. Use prompts like:
+        &ldquo;Remove background&rdquo;, &ldquo;Make brighter&rdquo;,
+        &ldquo;Improve colors&rdquo;, &ldquo;Sharpen image&rdquo;,
+        &ldquo;Increase contrast&rdquo;. This tool enhances existing product
+        images, not generate new content.
       </p>
       <div className="flex flex-col md:flex-row gap-8">
         {/* Item List */}

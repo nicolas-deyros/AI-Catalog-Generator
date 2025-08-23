@@ -18,6 +18,36 @@ export const enhanceImage = async (
   userPrompt: string
 ): Promise<ServiceResponse<ImageEnhancement>> => {
   const uniqueClipPathId = `clip-path-${itemId}`;
+
+  // Detect if user is trying to generate new content instead of enhancing existing image
+  const generativeKeywords = [
+    'beautiful woman',
+    'woman standing',
+    'tokyo alley',
+    'cinematic photo',
+    'high angle shot',
+    'lens',
+    'golden hour',
+    'shot on',
+    'masterpiece',
+    'photorealistic',
+    'negative prompt',
+    'ugly',
+    'deformed',
+    'lowres',
+  ];
+
+  const isGenerativePrompt = generativeKeywords.some((keyword) =>
+    userPrompt.toLowerCase().includes(keyword.toLowerCase())
+  );
+
+  if (isGenerativePrompt) {
+    return {
+      success: false,
+      error:
+        'This tool enhances existing product images, not generate new content. Try prompts like "remove background", "make brighter", "improve colors", "sharpen image", etc.',
+    };
+  }
   const prompt = `
     As an SVG expert, your task is to analyze the image and the user's request to create a JSON object.
     User Request: "${userPrompt}"
@@ -29,6 +59,7 @@ export const enhanceImage = async (
         *   Use single quotes for attributes.
         *   The 'd' path data must be a precise, high-fidelity outline of the subject.
         *   **CRITICAL:** Round all path coordinates to 2 decimal places for efficiency.
+        *   **PERFORMANCE:** Keep the path simple and efficient - avoid excessive detail that creates very long paths.
         *   **RULE:** The path MUST NOT crop the subject.
         *   If no background removal is needed, provide an empty string for the element.
     2.  **CSS Filter:** If the user requests quality changes (e.g., "brighter"), provide a CSS filter string. Otherwise, empty string.
@@ -103,7 +134,14 @@ export const enhanceImage = async (
       }
 
       if (lastBrace === -1) {
-        console.error('Invalid JSON structure in AI response:', jsonString);
+        const truncatedResponse =
+          jsonString.length > 500
+            ? jsonString.substring(0, 500) + '... [truncated]'
+            : jsonString;
+        console.error(
+          'Invalid JSON structure in AI response:',
+          truncatedResponse
+        );
         return {
           success: false,
           error: 'AI did not return a valid JSON object.',
@@ -115,9 +153,13 @@ export const enhanceImage = async (
       try {
         result = JSON.parse(jsonString);
       } catch (parseError) {
+        const truncatedJson =
+          jsonString.length > 500
+            ? jsonString.substring(0, 500) + '... [truncated]'
+            : jsonString;
         console.error(
           'Failed to parse extracted JSON:',
-          jsonString,
+          truncatedJson,
           parseError
         );
         return {
@@ -140,6 +182,21 @@ export const enhanceImage = async (
       return {
         success: false,
         error: 'AI response has incorrect data types for schema properties.',
+      };
+    }
+
+    // Validate clip path length to prevent performance issues
+    if (svgClipPathElement.length > 50000) {
+      console.warn('Clip path is extremely long, simplifying for performance');
+      // Provide a simple fallback clip path for very complex responses
+      const fallbackClipPath = `<clipPath id='${uniqueClipPathId}' clipPathUnits='objectBoundingBox'><rect x='0.05' y='0.05' width='0.9' height='0.9'/></clipPath>`;
+      return {
+        success: true,
+        data: {
+          clipPathId: uniqueClipPathId,
+          clipPathSvg: fallbackClipPath,
+          filterCss: cssFilter,
+        },
       };
     }
 
