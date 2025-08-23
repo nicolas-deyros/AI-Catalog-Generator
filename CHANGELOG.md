@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - Enhancement-2 Branch
+## [Unreleased]
 
 ### Added
 
@@ -60,6 +60,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dialog Positioning**: Resolved initial top-left positioning issues with proper CSS flexbox centering
 - **Accessibility**: Improved keyboard navigation and screen reader support in dialog components
 - **Close Button Visibility**: Enhanced contrast and styling for better user interaction
+- **Image Enhancement Error Handling**: Fixed JSON parsing errors when AI generates extremely long clip paths
+  - Added truncation for debug output to prevent console overflow
+  - Implemented fallback for overly complex clip paths (>50k characters)
+  - Added performance protection against memory issues
+- **Professional Photography Prompt Support**: Enhanced image enhancement to support complex photography prompts
+  - Removed overly restrictive validation that blocked legitimate enhancement requests
+  - Allow cinematic, golden hour, lens, and professional photography terminology
+  - Updated AI prompt to better handle professional photography enhancement techniques
+  - Distinguished between content generation vs. image enhancement requests
 
 ## [1.0.0] - 2025-08-20
 
