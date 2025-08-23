@@ -19,22 +19,26 @@ export const enhanceImage = async (
 ): Promise<ServiceResponse<ImageEnhancement>> => {
   const uniqueClipPathId = `clip-path-${itemId}`;
 
-  // Detect if user is trying to generate new content instead of enhancing existing image
+  // Detect if user is trying to generate completely new content instead of enhancing existing image
+  // Only block prompts that clearly ask for new scenes/subjects, not photography enhancement techniques
   const generativeKeywords = [
-    'beautiful woman',
+    'create a',
+    'generate a',
+    'draw a',
+    'make a picture of',
+    'show a',
+    'imagine a',
+    'picture of a',
+    'image of a',
+    'photo of a woman standing',
+    'woman in alley',
+    'person in',
+    'people in',
+    'man standing',
     'woman standing',
-    'tokyo alley',
-    'cinematic photo',
-    'high angle shot',
-    'lens',
-    'golden hour',
-    'shot on',
-    'masterpiece',
-    'photorealistic',
-    'negative prompt',
-    'ugly',
-    'deformed',
-    'lowres',
+    'create an image',
+    'generate an image',
+    'new image of',
   ];
 
   const isGenerativePrompt = generativeKeywords.some((keyword) =>
@@ -49,8 +53,10 @@ export const enhanceImage = async (
     };
   }
   const prompt = `
-    As an SVG expert, your task is to analyze the image and the user's request to create a JSON object.
-    User Request: "${userPrompt}"
+    As an SVG and image enhancement expert, analyze the EXISTING image and apply the user's enhancement request to create a JSON object.
+    User Enhancement Request: "${userPrompt}"
+
+    **Context:** You are enhancing an EXISTING product image, not creating new content. Apply the requested enhancements to the current image.
 
     **Instructions:**
     1.  **SVG Path:** If the user asks to "remove background" or similar, create an SVG <clipPath> element.
@@ -62,7 +68,11 @@ export const enhanceImage = async (
         *   **PERFORMANCE:** Keep the path simple and efficient - avoid excessive detail that creates very long paths.
         *   **RULE:** The path MUST NOT crop the subject.
         *   If no background removal is needed, provide an empty string for the element.
-    2.  **CSS Filter:** If the user requests quality changes (e.g., "brighter"), provide a CSS filter string. Otherwise, empty string.
+    2.  **CSS Filter:** Apply professional photography enhancement techniques requested by the user.
+        *   For cinematic/professional requests: use filters like brightness(), contrast(), saturate(), hue-rotate(), sepia(), etc.
+        *   For lighting requests: adjust brightness and contrast appropriately.
+        *   For color grading: use saturate(), hue-rotate(), and sepia() combinations.
+        *   If no enhancements needed, provide empty string.
     3.  **JSON Output:** Respond ONLY with a valid JSON object matching the required schema. No extra text or markdown.
   `;
 
