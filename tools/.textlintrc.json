@@ -1,0 +1,45 @@
+{
+  "filters": {},
+  "rules": {
+    "common-misspellings": true,
+    "write-good": {
+      "passive": false,
+      "illusion": false,
+      "so": false,
+      "thereIs": false,
+      "weasel": false,
+      "adverb": false,
+      "tooWordy": false
+    },
+    "spellcheck-tech-word": true,
+    "terminology": {
+      "defaultTerms": true,
+      "terms": [
+        "AI Catalog Generator",
+        "API key",
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "GitHub",
+        "npm",
+        "Node.js",
+        "PDF",
+        "CSS",
+        "HTML",
+        "JSON",
+        "Markdown",
+        "ESLint",
+        "Prettier",
+        "textlint",
+        "Dialog component",
+        "VS Code",
+        "Git",
+        "stylelint",
+        "Husky",
+        "end-to-end"
+      ]
+    }
+  }
+}
