@@ -201,8 +201,46 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
                   onChange={(e) => setPrompt(e.target.value)}
                   rows={2}
                   className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                  placeholder="e.g., Remove background, make colors more vibrant..."
+                  placeholder="Try professional photography styles: 'cinematic lighting', 'golden hour effect', 'vintage film look', 'remove background', 'make brighter'..."
                 />
+
+                {/* Professional Photography Examples */}
+                <div className="mt-2 mb-3">
+                  <details className="text-xs text-gray-600">
+                    <summary className="cursor-pointer hover:text-gray-800 font-medium">
+                      💡 Professional Photography Examples
+                    </summary>
+                    <div className="mt-2 p-2 bg-gray-100 rounded text-xs space-y-1">
+                      <div>
+                        <strong>Cinematic:</strong> &ldquo;cinematic lighting
+                        with dramatic shadows&rdquo;
+                      </div>
+                      <div>
+                        <strong>Golden Hour:</strong> &ldquo;golden hour
+                        lighting effect, warm tones&rdquo;
+                      </div>
+                      <div>
+                        <strong>Professional:</strong> &ldquo;shot with 85mm
+                        lens, shallow depth of field&rdquo;
+                      </div>
+                      <div>
+                        <strong>Vintage:</strong> &ldquo;vintage film look with
+                        kodak portra style&rdquo;
+                      </div>{' '}
+                      {/* cSpell:ignore portra */}
+                      <div>
+                        <strong>High-End:</strong> &ldquo;masterpiece quality,
+                        ultra-detailed, sharp focus&rdquo;
+                      </div>
+                      <div>
+                        <strong>Basic:</strong> &ldquo;remove background&rdquo;,
+                        &ldquo;make brighter&rdquo;, &ldquo;enhance
+                        colors&rdquo;
+                      </div>
+                    </div>
+                  </details>
+                </div>
+
                 <div className="mt-3 flex items-center justify-end gap-3">
                   {selectedItem.enhancement && (
                     <button

@@ -19,6 +19,180 @@ export const enhanceImage = async (
 ): Promise<ServiceResponse<ImageEnhancement>> => {
   const uniqueClipPathId = `clip-path-${itemId}`;
 
+  // Photography terminology analysis for better enhancement processing
+  // cSpell:ignore hasselblad mamiya portra provia ilford
+  const analyzePhotographyRequest = (userPrompt: string) => {
+    const prompt = userPrompt.toLowerCase();
+
+    const photographyTerms = {
+      // Camera angles & shots
+      angles: [
+        'low angle',
+        'high angle',
+        'eye level',
+        'aerial view',
+        "bird's-eye",
+        'ground level',
+        'dutch angle',
+      ],
+      shots: [
+        'close-up',
+        'extreme close-up',
+        'medium shot',
+        'wide shot',
+        'full shot',
+        'macro shot',
+        'cowboy shot',
+      ],
+
+      // Lens & focal length
+      lenses: [
+        '85mm',
+        '50mm',
+        '35mm',
+        '24mm',
+        '200mm',
+        'telephoto',
+        'fisheye',
+        'anamorphic',
+        'wide-angle',
+        'ultra-wide',
+      ],
+      aperture: [
+        'f/1.8',
+        'f/2.8',
+        'f/16',
+        'shallow depth',
+        'bokeh',
+        'deep focus',
+      ],
+
+      // Photography styles
+      styles: [
+        'cinematic',
+        'documentary',
+        'street photography',
+        'fashion',
+        'editorial',
+        'portrait',
+        'noir',
+        'vintage',
+      ],
+      techniques: [
+        'long exposure',
+        'double exposure',
+        'motion blur',
+        'high-speed',
+        'silhouette',
+        'hdr',
+      ],
+
+      // Lighting & time
+      lighting: [
+        'golden hour',
+        'blue hour',
+        'studio lighting',
+        'dramatic lighting',
+        'soft lighting',
+        'rim light',
+        'volumetric',
+      ],
+      quality: [
+        'masterpiece',
+        'photorealistic',
+        'hyperrealistic',
+        'ultra-detailed',
+        '8k',
+        '4k',
+        'raw photo',
+        'sharp focus',
+      ],
+
+      // Camera brands
+      cameras: [
+        'canon eos',
+        'sony alpha',
+        'nikon',
+        'leica',
+        'hasselblad',
+        'fujifilm',
+        'mamiya',
+      ],
+
+      // Film stocks
+      film: [
+        'kodak portra',
+        'fuji provia',
+        'ilford delta',
+        'film grain',
+        'analog',
+      ],
+    };
+
+    const detectedTerms = {
+      hasPhotographyTerms: false,
+      categories: [] as string[],
+      suggestedFilters: [] as string[],
+    };
+
+    // Check for photography terms
+    Object.entries(photographyTerms).forEach(([category, terms]) => {
+      const found = terms.some((term) => prompt.includes(term));
+      if (found) {
+        detectedTerms.hasPhotographyTerms = true;
+        detectedTerms.categories.push(category);
+      }
+    });
+
+    // Suggest appropriate CSS filters based on detected terms
+    if (prompt.includes('cinematic') || prompt.includes('dramatic')) {
+      detectedTerms.suggestedFilters.push(
+        'contrast(1.2)',
+        'saturate(1.1)',
+        'brightness(0.95)'
+      );
+    }
+    if (prompt.includes('golden hour') || prompt.includes('warm')) {
+      detectedTerms.suggestedFilters.push(
+        'hue-rotate(10deg)',
+        'saturate(1.15)',
+        'brightness(1.05)'
+      );
+    }
+    if (prompt.includes('noir') || prompt.includes('black and white')) {
+      detectedTerms.suggestedFilters.push('grayscale(1)', 'contrast(1.3)');
+    }
+    if (prompt.includes('vintage') || prompt.includes('nostalgic')) {
+      detectedTerms.suggestedFilters.push(
+        'sepia(0.3)',
+        'contrast(0.9)',
+        'brightness(1.1)'
+      );
+    }
+    if (prompt.includes('blue hour') || prompt.includes('cool')) {
+      detectedTerms.suggestedFilters.push(
+        'hue-rotate(-10deg)',
+        'saturate(1.1)',
+        'brightness(0.9)'
+      );
+    }
+    if (
+      prompt.includes('high contrast') ||
+      prompt.includes('dramatic lighting')
+    ) {
+      detectedTerms.suggestedFilters.push('contrast(1.4)', 'brightness(1.05)');
+    }
+    if (prompt.includes('soft') || prompt.includes('ethereal')) {
+      detectedTerms.suggestedFilters.push(
+        'brightness(1.1)',
+        'contrast(0.9)',
+        'saturate(1.05)'
+      );
+    }
+
+    return detectedTerms;
+  };
+
   // Detect if user is trying to generate completely new content instead of enhancing existing image
   // Only block prompts that clearly ask for new scenes/subjects, not photography enhancement techniques
   const generativeKeywords = [
@@ -52,28 +226,66 @@ export const enhanceImage = async (
         'This tool enhances existing product images, not generate new content. Try prompts like "remove background", "make brighter", "improve colors", "sharpen image", etc.',
     };
   }
+
+  // Analyze photography request for better processing
+  const photographyAnalysis = analyzePhotographyRequest(userPrompt);
+  const isProfessionalRequest = photographyAnalysis.hasPhotographyTerms;
+
   const prompt = `
-    As an SVG and image enhancement expert, analyze the EXISTING image and apply the user's enhancement request to create a JSON object.
+    As a professional image enhancement expert specializing in photography techniques, analyze the EXISTING product image and apply the user's enhancement request.
+    
     User Enhancement Request: "${userPrompt}"
+    
+    **Photography Analysis:** ${isProfessionalRequest ? `Professional photography request detected. Categories: ${photographyAnalysis.categories.join(', ')}. Apply advanced photographic enhancement techniques.` : 'Standard enhancement request.'}
+    
+    **Context:** You are enhancing an EXISTING product image, not creating new content. Transform the current image using professional photography techniques.
 
-    **Context:** You are enhancing an EXISTING product image, not creating new content. Apply the requested enhancements to the current image.
+    **Enhanced Instructions:**
+    1. **SVG Path (Background Removal):**
+       - Create an SVG <clipPath> element ONLY if the user requests background removal or isolation
+       - ID MUST be '${uniqueClipPathId}'
+       - MUST use clipPathUnits='objectBoundingBox'
+       - Use single quotes for attributes
+       - Create a precise, high-fidelity outline of the main subject
+       - **CRITICAL:** Round coordinates to 2 decimal places for performance
+       - **PERFORMANCE:** Keep paths efficient, avoid excessive detail
+       - **RULE:** Never crop the subject - ensure complete outline
+       - If no background removal needed, provide empty string
 
-    **Instructions:**
-    1.  **SVG Path:** If the user asks to "remove background" or similar, create an SVG <clipPath> element.
-        *   ID MUST be '${uniqueClipPathId}'.
-        *   MUST use clipPathUnits='objectBoundingBox'.
-        *   Use single quotes for attributes.
-        *   The 'd' path data must be a precise, high-fidelity outline of the subject.
-        *   **CRITICAL:** Round all path coordinates to 2 decimal places for efficiency.
-        *   **PERFORMANCE:** Keep the path simple and efficient - avoid excessive detail that creates very long paths.
-        *   **RULE:** The path MUST NOT crop the subject.
-        *   If no background removal is needed, provide an empty string for the element.
-    2.  **CSS Filter:** Apply professional photography enhancement techniques requested by the user.
-        *   For cinematic/professional requests: use filters like brightness(), contrast(), saturate(), hue-rotate(), sepia(), etc.
-        *   For lighting requests: adjust brightness and contrast appropriately.
-        *   For color grading: use saturate(), hue-rotate(), and sepia() combinations.
-        *   If no enhancements needed, provide empty string.
-    3.  **JSON Output:** Respond ONLY with a valid JSON object matching the required schema. No extra text or markdown.
+    2. **CSS Filter (Professional Photography Enhancement):**
+       ${
+         isProfessionalRequest
+           ? `
+       **PROFESSIONAL MODE ACTIVATED:** Apply sophisticated photography techniques:
+       
+       **Cinematic Enhancement:** For "cinematic" requests - use contrast(1.15-1.3), saturate(1.05-1.15), brightness adjustments
+       **Golden Hour Effect:** For "golden hour" - use hue-rotate(8deg-15deg), saturate(1.1-1.2), brightness(1.05-1.1)
+       **Dramatic Lighting:** For "dramatic" - use contrast(1.2-1.4), brightness(0.95-1.05), saturate(1.1)
+       **Vintage/Nostalgic:** For "vintage" - use sepia(0.2-0.4), contrast(0.9-1.1), brightness(1.05-1.15)
+       **Noir/B&W:** For "noir" - use grayscale(1), contrast(1.2-1.4)
+       **Blue Hour:** For "blue hour" - use hue-rotate(-8deg to -15deg), saturate(1.1), brightness(0.85-0.95)
+       **High Quality/Sharp:** For "masterpiece/sharp" - use contrast(1.1), saturate(1.05), brightness(1.02)
+       **Soft/Ethereal:** For "soft/ethereal" - use brightness(1.1), contrast(0.9), saturate(1.05)
+       
+       **Lens Effects:** Consider depth simulation with subtle blur effects
+       **Film Grain:** For analog requests, add subtle noise simulation
+       **Color Grading:** Apply professional color correction based on request
+       `
+           : `
+       **STANDARD MODE:** Apply basic enhancements:
+       - Brightness/contrast adjustments for "brighter/darker"
+       - Saturation for "vivid/muted colors"
+       - Basic color corrections
+       `
+       }
+       
+       **Filter Format:** Combine multiple CSS filters: brightness() contrast() saturate() hue-rotate() sepia() grayscale()
+       **Range Guidelines:** brightness(0.8-1.3), contrast(0.8-1.5), saturate(0.8-1.3), hue-rotate(-30deg to 30deg)
+       If no enhancement needed, provide empty string
+
+    3. **JSON Output:** Respond ONLY with valid JSON matching the schema. No markdown or extra text.
+    
+    **Expected Quality:** ${isProfessionalRequest ? 'Professional photography enhancement with cinematic quality' : 'Standard image improvement'}
   `;
 
   try {

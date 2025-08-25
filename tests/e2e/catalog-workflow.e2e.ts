@@ -13,7 +13,9 @@ test.describe('Catalog Creation Workflow', () => {
     await expect(page).toHaveTitle(/AI Catalog Creator/i);
 
     // Security: Check for essential UI elements
-    await expect(page.getByText('Upload Product Images')).toBeVisible();
+    await expect(
+      page.getByText('Drag & drop your product images here')
+    ).toBeVisible();
   });
 
   test('should complete full catalog creation flow', async ({ page }) => {
