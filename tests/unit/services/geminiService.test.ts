@@ -257,5 +257,167 @@ describe('Gemini Service', () => {
         expect(result.data).toContain('catalog-page');
       }
     });
+
+    describe('Professional Photography Enhancements', () => {
+      it('should handle cinematic enhancement requests', async () => {
+        server.use(
+          http.post(
+            'https://generativelanguage.googleapis.com/v1beta/models/*',
+            () => {
+              return HttpResponse.json({
+                candidates: [
+                  {
+                    content: {
+                      parts: [
+                        {
+                          text: JSON.stringify({
+                            svgClipPathElement: '',
+                            cssFilter:
+                              'contrast(1.2) saturate(1.1) brightness(0.95)',
+                          }),
+                        },
+                      ],
+                    },
+                  },
+                ],
+              });
+            }
+          )
+        );
+
+        const result = await enhanceImage(
+          'data:image/jpeg;base64,test',
+          'image/jpeg',
+          'test-1',
+          'make this cinematic and dramatic'
+        );
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.filterCss).toContain('contrast');
+          expect(result.data.filterCss).toContain('saturate');
+        }
+      });
+
+      it('should handle golden hour photography requests', async () => {
+        server.use(
+          http.post(
+            'https://generativelanguage.googleapis.com/v1beta/models/*',
+            () => {
+              return HttpResponse.json({
+                candidates: [
+                  {
+                    content: {
+                      parts: [
+                        {
+                          text: JSON.stringify({
+                            svgClipPathElement: '',
+                            cssFilter:
+                              'hue-rotate(10deg) saturate(1.15) brightness(1.05)',
+                          }),
+                        },
+                      ],
+                    },
+                  },
+                ],
+              });
+            }
+          )
+        );
+
+        const result = await enhanceImage(
+          'data:image/jpeg;base64,test',
+          'image/jpeg',
+          'test-1',
+          'apply golden hour lighting effect'
+        );
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.filterCss).toContain('hue-rotate');
+          expect(result.data.filterCss).toContain('saturate');
+        }
+      });
+
+      it('should handle professional camera and lens terminology', async () => {
+        server.use(
+          http.post(
+            'https://generativelanguage.googleapis.com/v1beta/models/*',
+            () => {
+              return HttpResponse.json({
+                candidates: [
+                  {
+                    content: {
+                      parts: [
+                        {
+                          text: JSON.stringify({
+                            svgClipPathElement: '',
+                            cssFilter:
+                              'contrast(1.1) saturate(1.05) brightness(1.02)',
+                          }),
+                        },
+                      ],
+                    },
+                  },
+                ],
+              });
+            }
+          )
+        );
+
+        const result = await enhanceImage(
+          'data:image/jpeg;base64,test',
+          'image/jpeg',
+          'test-1',
+          'shot with 85mm lens, shallow depth of field, masterpiece quality'
+        );
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.filterCss).toContain('contrast');
+          expect(result.data.clipPathSvg).toBe('');
+        }
+      });
+
+      it('should handle vintage and film photography styles', async () => {
+        server.use(
+          http.post(
+            'https://generativelanguage.googleapis.com/v1beta/models/*',
+            () => {
+              return HttpResponse.json({
+                candidates: [
+                  {
+                    content: {
+                      parts: [
+                        {
+                          text: JSON.stringify({
+                            svgClipPathElement: '',
+                            cssFilter:
+                              'sepia(0.3) contrast(0.9) brightness(1.1)',
+                          }),
+                        },
+                      ],
+                    },
+                  },
+                ],
+              });
+            }
+          )
+        );
+
+        const result = await enhanceImage(
+          'data:image/jpeg;base64,test',
+          'image/jpeg',
+          'test-1',
+          'vintage film look with kodak portra style' // cSpell:ignore portra
+        );
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.filterCss).toContain('sepia');
+          expect(result.data.filterCss).toContain('contrast');
+        }
+      });
+    });
   });
 });
