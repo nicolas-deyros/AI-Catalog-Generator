@@ -12,9 +12,13 @@ View your app in AI Studio: https://ai.studio/apps/drive/1vaHU_8IzgJUte_Kj2P6vXV
 
 - **Multi-Step Catalog Creation:** A guided workflow to take you from product images to a finished catalog.
 - **Image Upload:** Upload multiple product images at once with drag-and-drop support.
-- **AI-Powered Image Enhancement:**
-  - Remove backgrounds from product images.
-  - Apply color corrections and other filters using natural language prompts.
+- **Professional Photography AI Enhancement:**
+  - **150+ Photography Terms Support:** Recognize professional camera angles, lens types, lighting conditions, and photography styles
+  - **Intelligent Enhancement:** Automatically apply appropriate enhancements based on photography terminology
+  - **Professional Effects:** Cinematic lighting, golden hour effects, vintage film looks, noir styles, and more
+  - **Background Removal:** AI-powered background isolation with precise edge detection
+  - **Color Grading:** Professional color correction using natural language prompts like "cinematic dramatic lighting"
+  - **Camera Simulation:** Support for lens effects (85mm, 50mm, telephoto, fisheye), aperture settings, and film stocks
 - **AI-Powered Content Generation:**
   - Generate a complete, multi-page HTML catalog with Tailwind CSS.
   - Provide a style prompt to guide the AI in creating a design that matches your brand.
@@ -23,23 +27,41 @@ View your app in AI Studio: https://ai.studio/apps/drive/1vaHU_8IzgJUte_Kj2P6vXV
   - Professional dialog components replace browser alerts for better user experience.
   - Responsive design with Tailwind CSS.
   - Accessible components with proper ARIA labels and keyboard navigation.
-- **PDF Export:** Download your catalog as a high-quality PDF file.
+  - Built-in photography examples and guidance for users.
+- **PDF Export:** Download your catalog as a high-quality PDF file with cross-browser compatibility.
 
 ## Project Structure
 
-The project is a well-organized Vite-based React application with the following structure:
+The project is a well-organized Vite-based React application with a clean, modular structure:
 
 ```
 .
-├── public/               # Static assets (favicon, etc.)
+├── configs/             # All configuration files
+│   ├── eslint.config.js         # ESLint configuration
+│   ├── playwright.config.ts     # E2E testing configuration
+│   ├── tsconfig.json            # TypeScript configuration
+│   ├── vite.config.ts           # Vite build configuration
+│   └── vitest.config.ts         # Unit testing configuration
+├── docs/                # Documentation
+│   ├── CHANGELOG.md             # Version history and changes
+│   ├── CONTRIBUTING.md          # Contribution guidelines
+│   ├── PHOTOGRAPHY_ENHANCEMENT_SUMMARY.md  # Photography features guide
+│   ├── RECOMMENDATIONS.md       # Best practices and recommendations
+│   └── TESTING_STRATEGY.md      # Testing approach and guidelines
+├── tools/               # Development tools and linting configs
+│   ├── .lintstagedrc.json       # Staged files linting configuration
+│   ├── .prettierrc             # Code formatting rules
+│   ├── .stylelintrc.json        # CSS linting configuration
+│   ├── .textlintrc.json         # Documentation linting configuration
+│   └── cspell.json              # Spell checking configuration
+├── public/              # Static assets (favicon, etc.)
 ├── src/
-│   ├── assets/          # Static assets used in components
 │   ├── components/      # React components
 │   │   ├── CatalogPreview.tsx    # PDF generation and preview
 │   │   ├── Dialog.tsx            # Modern dialog component
 │   │   ├── Header.tsx            # Application header
 │   │   ├── Icon.tsx              # Icon component library
-│   │   ├── ImageEnhancer.tsx     # AI image enhancement
+│   │   ├── ImageEnhancer.tsx     # AI image enhancement with photography support
 │   │   ├── ImageUploader.tsx     # File upload with drag-and-drop
 │   │   ├── Loader.tsx            # Loading spinner
 │   │   ├── ProgressStepper.tsx   # Step navigation
@@ -47,20 +69,22 @@ The project is a well-organized Vite-based React application with the following 
 │   ├── hooks/           # Custom React hooks
 │   │   └── useAppSteps.ts        # Application flow management
 │   ├── services/        # External API services
-│   │   └── geminiService.ts      # Google Gemini AI integration
-│   ├── styles/          # Global CSS styles
-│   │   └── global.css            # Tailwind CSS imports and custom styles
+│   │   └── geminiService.ts      # Google Gemini AI with photography terminology
 │   ├── types/           # TypeScript type definitions
-│   │   └── index.ts              # Shared type definitions
+│   │   └── types.ts              # Shared type definitions
 │   ├── App.tsx          # Main application component
 │   └── index.tsx        # Application entry point
+├── tests/               # Test suites
+│   ├── e2e/             # End-to-end tests
+│   ├── setup/           # Test configuration and setup
+│   └── unit/            # Unit tests organized by feature
 ├── .env                 # Environment variables (ignored by git)
 ├── .env.example         # Environment variable template
-├── .textlintrc.json     # Text linting configuration
-├── cspell.json          # Spell checking configuration
-├── eslint.config.js     # ESLint configuration
+├── .gitignore           # Git ignore patterns
+├── .husky/              # Git hooks configuration
+├── index.html           # HTML entry point
 ├── package.json         # Project dependencies and scripts
-└── ...
+└── README.md            # This file
 ```
 
 ## Technologies Used

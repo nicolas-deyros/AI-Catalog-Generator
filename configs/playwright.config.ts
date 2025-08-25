@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   // Test directory
-  testDir: './tests/e2e',
+  testDir: '../tests/e2e',
 
   // Security: Run tests in fully parallel mode for isolation
   fullyParallel: true,
@@ -96,8 +96,8 @@ export default defineConfig({
   },
 
   // Security: Global test configuration
-  globalSetup: './tests/setup/playwright.global.ts',
-  globalTeardown: './tests/setup/playwright.teardown.ts',
+  globalSetup: '../tests/setup/playwright.global.ts',
+  globalTeardown: '../tests/setup/playwright.teardown.ts',
 
   // Security: Test timeout
   timeout: 30 * 1000,
@@ -108,7 +108,7 @@ export default defineConfig({
   },
 
   // Security: Output directory for test artifacts
-  outputDir: 'test-results/',
+  outputDir: '../test-results/',
 
   // Security: Test patterns
   testMatch: /.*\.e2e\.ts/,

@@ -252,7 +252,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                 </div>
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="absolute -top-2 -right-2 p-1 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                  className="absolute -top-3 -right-3 w-8 h-8 flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 shadow-lg hover:scale-110 z-20"
+                  title="Remove image"
+                  aria-label="Remove image"
                 >
                   <Icon icon="trash" className="w-4 h-4" />
                 </button>

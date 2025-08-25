@@ -28,6 +28,95 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
     type: 'info',
   });
 
+  // Preset photography prompts
+  const presetPrompts = [
+    {
+      name: 'High-Fashion Editorial',
+      prompt:
+        'editorial photography, masterpiece quality, ultra-detailed, sharp focus',
+    },
+    {
+      name: 'Cinematic Drama',
+      prompt: 'cinematic lighting, dramatic shadows, volumetric lighting',
+    },
+    {
+      name: 'Soft Portraiture',
+      prompt:
+        'portrait photography, shallow depth of field, f/1.8 aperture, soft lighting',
+    },
+    {
+      name: 'Golden Hour Glow',
+      prompt: 'golden hour lighting effect, ethereal glow, crepuscular rays',
+    },
+    {
+      name: 'Vintage Film Look',
+      prompt:
+        'vintage photography, Kodak Portra 400, analog film photo, film grain',
+    },
+    {
+      name: 'Street Style Candid',
+      prompt: 'candid street photography, motion blur, dynamic lighting',
+    },
+    {
+      name: 'Sleek Studio Shot',
+      prompt: 'studio lighting, rim light, ultra-detailed, 8K resolution',
+    },
+    {
+      name: 'Macro Details',
+      prompt: 'macro shot, intricate details, textured skin',
+    },
+    {
+      name: 'Leica Look',
+      prompt: 'shot on Leica M11, high contrast, documentary photo',
+    },
+    {
+      name: 'Dynamic Movement',
+      prompt: 'high-speed photography, light trails, panning shot',
+    },
+    {
+      name: 'Minimalist Aesthetic',
+      prompt: 'masterpiece quality, sharp focus, f/16 aperture',
+    },
+    {
+      name: 'Dreamy and Ethereal',
+      prompt: 'ethereal glow, soft focus, double exposure',
+    },
+    {
+      name: 'High Contrast Noir',
+      prompt:
+        'noir photography, black and white photography, dramatic lighting',
+    },
+    {
+      name: 'Retro Point-and-Shoot',
+      prompt:
+        'shot on a point-and-shoot camera, nostalgic mood, polaroid photo',
+    },
+    {
+      name: 'Anamorphic Effect',
+      prompt: 'anamorphic lens, lens flare, cinematic photo',
+    },
+    {
+      name: 'Architectural Fashion',
+      prompt: 'architectural photography, wide-angle lens, deep focus',
+    },
+    {
+      name: 'Reflective Surface',
+      prompt: 'HDR, dramatic lighting, subtle lens flare',
+    },
+    {
+      name: 'Steadicam Movement',
+      prompt: 'steadicam shot, tracking shot, dynamic lighting, high quality',
+    },
+    {
+      name: 'Cinematic Close-Up',
+      prompt: 'close-up shot, 85mm lens, f/1.8 aperture, cinematic photo',
+    },
+    {
+      name: 'Classic Mamiya',
+      prompt: 'shot on Mamiya RZ67, high quality, soft lighting',
+    },
+  ];
+
   const selectedItem = items.find((item) => item.id === selectedItemId);
 
   useEffect(() => {
@@ -203,6 +292,25 @@ const ImageEnhancer: React.FC<ImageEnhancerProps> = ({
                   className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                   placeholder="Try professional photography styles: 'cinematic lighting', 'golden hour effect', 'vintage film look', 'remove background', 'make brighter'..."
                 />
+
+                {/* Preset Prompt Buttons */}
+                <div className="mt-3">
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">
+                    Quick Presets:
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                    {presetPrompts.map((preset, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setPrompt(preset.prompt)}
+                        className="text-xs px-2 py-1.5 bg-gray-100 hover:bg-indigo-100 border border-gray-200 rounded-md text-gray-700 hover:text-indigo-700 transition-colors text-left truncate"
+                        title={preset.prompt}
+                      >
+                        {preset.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Professional Photography Examples */}
                 <div className="mt-2 mb-3">

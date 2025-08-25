@@ -122,27 +122,177 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({
           windowWidth: pageElement.scrollWidth,
           windowHeight: pageElement.scrollHeight,
           onclone: (clonedDoc: Document) => {
-            // Fix oklch color compatibility by converting to rgb
+            // More aggressive fix for oklch color compatibility
+
+            // 1. Add comprehensive CSS overrides
             const style = clonedDoc.createElement('style');
             style.textContent = `
+              /* Force all elements to use RGB colors - highest priority */
               * {
+                /* Reset all CSS custom properties that might use oklch */
                 --tw-gradient-from: rgb(99 102 241) !important;
                 --tw-gradient-to: rgb(147 51 234) !important;
+                --tw-gradient-via: rgb(124 58 237) !important;
+                color-scheme: normal !important;
+                
+                /* Force color space for all properties */
+                color: rgb(75 85 99) !important;
+                background-color: rgb(255 255 255) !important;
+                border-color: rgb(209 213 219) !important;
               }
-              /* Convert common Tailwind oklch colors to rgb equivalents */
+              
+              /* Override ALL possible Tailwind classes with RGB values */
+              .text-gray-50 { color: rgb(249 250 251) !important; }
+              .text-gray-100 { color: rgb(243 244 246) !important; }
+              .text-gray-200 { color: rgb(229 231 235) !important; }
+              .text-gray-300 { color: rgb(209 213 219) !important; }
+              .text-gray-400 { color: rgb(156 163 175) !important; }
+              .text-gray-500 { color: rgb(107 114 128) !important; }
               .text-gray-600 { color: rgb(75 85 99) !important; }
               .text-gray-700 { color: rgb(55 65 81) !important; }
               .text-gray-800 { color: rgb(31 41 55) !important; }
               .text-gray-900 { color: rgb(17 24 39) !important; }
+              .text-gray-950 { color: rgb(3 7 18) !important; }
+              
               .bg-white { background-color: rgb(255 255 255) !important; }
               .bg-gray-50 { background-color: rgb(249 250 251) !important; }
               .bg-gray-100 { background-color: rgb(243 244 246) !important; }
+              .bg-gray-200 { background-color: rgb(229 231 235) !important; }
+              .bg-gray-300 { background-color: rgb(209 213 219) !important; }
+              .bg-gray-800 { background-color: rgb(31 41 55) !important; }
+              .bg-gray-900 { background-color: rgb(17 24 39) !important; }
+              
+              .bg-indigo-50 { background-color: rgb(238 242 255) !important; }
+              .bg-indigo-100 { background-color: rgb(224 231 255) !important; }
+              .bg-indigo-500 { background-color: rgb(99 102 241) !important; }
               .bg-indigo-600 { background-color: rgb(79 70 229) !important; }
               .bg-indigo-700 { background-color: rgb(67 56 202) !important; }
+              
               .border-gray-200 { border-color: rgb(229 231 235) !important; }
               .border-gray-300 { border-color: rgb(209 213 219) !important; }
+              .border-gray-400 { border-color: rgb(156 163 175) !important; }
+              
+              /* Shadow overrides */
+              .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important; }
+              .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
+              
+              /* Nuclear option: override ANY element that might have modern color functions */
+              [style*="oklch"], [style*="lab"], [style*="lch"], [class*="color"] {
+                color: rgb(75 85 99) !important;
+                background-color: rgb(255 255 255) !important;
+                border-color: rgb(209 213 219) !important;
+              }
             `;
             clonedDoc.head.appendChild(style);
+
+            // 2. Process ALL stylesheets and replace modern color functions
+            const allStyleSheets = Array.from(clonedDoc.styleSheets);
+            allStyleSheets.forEach((sheet) => {
+              try {
+                if (sheet.cssRules) {
+                  for (let i = 0; i < sheet.cssRules.length; i++) {
+                    const rule = sheet.cssRules[i];
+                    if (rule instanceof CSSStyleRule) {
+                      const style = rule.style;
+                      for (let j = 0; j < style.length; j++) {
+                        const property = style[j];
+                        const value = style.getPropertyValue(property);
+                        if (
+                          value &&
+                          (value.includes('oklch') ||
+                            value.includes('lab(') ||
+                            value.includes('lch('))
+                        ) {
+                          // Replace with safe RGB fallback
+                          style.setProperty(
+                            property,
+                            'rgb(75, 85, 99)',
+                            'important'
+                          );
+                        }
+                      }
+                    }
+                  }
+                }
+              } catch (e) {
+                // Ignore CORS errors from external stylesheets
+                console.warn('Could not process stylesheet:', e);
+              }
+            });
+
+            // 3. Process ALL elements and their computed styles
+            const allElements = clonedDoc.querySelectorAll('*');
+            allElements.forEach((element) => {
+              if (element instanceof HTMLElement) {
+                try {
+                  // Check inline styles
+                  if (element.style && element.style.cssText) {
+                    const cssText = element.style.cssText;
+                    if (
+                      cssText.includes('oklch') ||
+                      cssText.includes('lab(') ||
+                      cssText.includes('lch(')
+                    ) {
+                      // Replace modern color functions with safe RGB
+                      element.style.cssText = cssText
+                        .replace(/oklch\([^)]+\)/g, 'rgb(75, 85, 99)')
+                        .replace(/lab\([^)]+\)/g, 'rgb(75, 85, 99)')
+                        .replace(/lch\([^)]+\)/g, 'rgb(75, 85, 99)');
+                    }
+                  }
+
+                  // Check computed styles and override problematic ones
+                  const computedStyle = window.getComputedStyle(element);
+                  const colorProperties = [
+                    'color',
+                    'background-color',
+                    'border-color',
+                    'outline-color',
+                    'text-decoration-color',
+                  ];
+
+                  colorProperties.forEach((prop) => {
+                    const value = computedStyle.getPropertyValue(prop);
+                    if (
+                      value &&
+                      (value.includes('oklch') ||
+                        value.includes('lab') ||
+                        value.includes('lch'))
+                    ) {
+                      // Force override with RGB
+                      element.style.setProperty(
+                        prop,
+                        'rgb(75, 85, 99)',
+                        'important'
+                      );
+                    }
+                  });
+                } catch (e) {
+                  // Ignore any errors accessing styles
+                  console.warn('Could not process element styles:', e);
+                }
+              }
+            });
+
+            // 4. Force remove any CSS custom properties that might contain oklch
+            const rootElement = clonedDoc.documentElement;
+            if (rootElement instanceof HTMLElement) {
+              const rootStyle = rootElement.style;
+              for (let i = rootStyle.length - 1; i >= 0; i--) {
+                const property = rootStyle[i];
+                if (property.startsWith('--')) {
+                  const value = rootStyle.getPropertyValue(property);
+                  if (
+                    value &&
+                    (value.includes('oklch') ||
+                      value.includes('lab') ||
+                      value.includes('lch'))
+                  ) {
+                    rootStyle.removeProperty(property);
+                  }
+                }
+              }
+            }
           },
         });
 

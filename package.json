@@ -4,50 +4,31 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --open",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "vite --config configs/vite.config.ts --open",
+    "build": "vite build --config configs/vite.config.ts",
+    "preview": "vite preview --config configs/vite.config.ts",
     "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "vitest run",
-    "test:unit:watch": "vitest",
-    "test:unit:ui": "vitest --ui",
-    "test:unit:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:debug": "playwright test --debug",
+    "test:unit": "vitest run --config configs/vitest.config.ts",
+    "test:unit:watch": "vitest --config configs/vitest.config.ts",
+    "test:unit:ui": "vitest --ui --config configs/vitest.config.ts",
+    "test:unit:coverage": "vitest run --coverage --config configs/vitest.config.ts",
+    "test:e2e": "playwright test --config=configs/playwright.config.ts",
+    "test:e2e:ui": "playwright test --config=configs/playwright.config.ts --ui",
+    "test:e2e:headed": "playwright test --config=configs/playwright.config.ts --headed",
+    "test:e2e:debug": "playwright test --config=configs/playwright.config.ts --debug",
     "lint": "npm run lint:js && npm run lint:css && npm run lint:text && npm run lint:spell",
-    "lint:js": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:css": "stylelint \"**/*.{ts,tsx}\"",
-    "lint:text": "textlint \"**/*.{md,txt}\"",
-    "lint:spell": "cspell \"**/*.{ts,tsx,js,jsx,html,css,json,md}\"",
+    "lint:js": "eslint . --config configs/eslint.config.js --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:css": "stylelint \"**/*.{ts,tsx}\" --config tools/.stylelintrc.json",
+    "lint:text": "textlint \"**/*.{md,txt}\" --config tools/.textlintrc.json",
+    "lint:spell": "cspell \"**/*.{ts,tsx,js,jsx,html,css,json,md}\" --config tools/cspell.json",
     "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix && npm run lint:text -- --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "type-check": "tsc --noEmit",
+    "format": "prettier --write . --config tools/.prettierrc",
+    "format:check": "prettier --check . --config tools/.prettierrc",
+    "type-check": "tsc --noEmit --project configs/tsconfig.json",
     "quality": "npm run lint && npm run type-check && npm run test:unit",
     "pre-commit": "lint-staged",
+    "report": "npx playwright show-report",
     "prepare": "husky"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "cspell --no-progress",
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{css,scss,sass}": [
-      "stylelint --fix"
-    ],
-    "*.{md,txt}": [
-      "textlint --fix",
-      "prettier --write"
-    ],
-    "*.json": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx}": [
-      "npm run test:unit -- --run --reporter=verbose --passWithNoTests"
-    ]
   },
   "dependencies": {
     "@google/genai": "^1.15.0",
