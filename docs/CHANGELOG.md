@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **20 Professional Photography Preset Buttons**: Quick-access preset buttons in the ImageEnhancer component for instant professional enhancement styles:
+  - **High-Fashion Editorial**: Editorial photography with masterpiece quality and ultra-detailed focus
+  - **Cinematic Drama**: Dramatic lighting with volumetric effects and cinematic shadows
+  - **Portrait Styles**: Soft portraiture, golden hour glow, and vintage film looks
+  - **Professional Camera Effects**: Leica looks, macro details, anamorphic effects, and studio shots
+  - **Movement & Style Variants**: Dynamic movement, street style, minimalist aesthetic, and noir photography
+  - **One-Click Application**: Users can instantly apply professional enhancement prompts with a single click
+  - **Responsive Grid Layout**: Clean, organized preset buttons that adapt to different screen sizes
+
+- **Enhanced Delete Button UX**: Significantly improved image deletion experience:
+  - **Larger, More Visible Button**: Increased size from 16px to 32px circular button for better usability
+  - **Improved Trash Icon**: Cleaner, more recognizable trash can icon with better stroke weight
+  - **Perfect Circular Design**: Fixed oval button shape to perfect circle with proper dimensions
+  - **Enhanced Accessibility**: Added ARIA labels, tooltips, and focus ring for screen readers
+  - **Smooth Animations**: Hover effects with scaling and color transitions for better visual feedback
+  - **Professional Styling**: Better positioning, shadows, and z-index management
+
+- **Icon Component Improvements**: Enhanced icon rendering and display:
+  - **Proper SVG Sizing**: Fixed icon container to properly display SVG elements with full sizing
+  - **Flexbox Centering**: Improved icon alignment and centering within containers
+  - **Better Visual Consistency**: Icons now render consistently across all components
+
 - **Professional Photography AI Enhancement System**: Revolutionary photography terminology support:
   - **150+ Photography Terms Recognition**: Support for camera angles, lens types, photography styles, lighting conditions, quality modifiers, and camera brands
   - **Intelligent Enhancement Mapping**: Automatically applies appropriate CSS filters based on detected photography terminology
