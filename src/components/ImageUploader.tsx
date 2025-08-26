@@ -231,7 +231,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                 className="relative group bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col"
               >
                 <div className="relative h-40 w-full bg-gray-100 flex items-center justify-center overflow-hidden rounded-t-lg">
-                  <div className="absolute top-1 right-1 z-10">
+                  <div className="absolute top-1 right-1 z-10 flex flex-col gap-1">
+                    {item.isGenerated && (
+                      <div className="flex items-center gap-1 text-xs text-purple-700 font-semibold py-1 px-2 rounded-full bg-purple-100">
+                        <Icon icon="sparkles" className="w-3 h-3" />
+                        AI Generated
+                      </div>
+                    )}
                     {item.enhancement && (
                       <div className="flex items-center gap-1 text-xs text-indigo-700 font-semibold py-1 px-2 rounded-full bg-indigo-100">
                         <Icon icon="sparkles" className="w-3 h-3" />

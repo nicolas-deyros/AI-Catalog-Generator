@@ -12,6 +12,14 @@ export interface ImageEnhancement {
   filterCss: string;
 }
 
+export interface GeneratedImage {
+  id: string;
+  base64Data: string;
+  prompt: string;
+  mimeType: string;
+  objectURL: string;
+}
+
 export interface CatalogItem {
   id: string;
   file: File;
@@ -20,6 +28,7 @@ export interface CatalogItem {
   base64: string;
   isEnhancing?: boolean;
   enhancement?: ImageEnhancement;
+  isGenerated?: boolean; // Flag to indicate if this is an AI-generated image
 }
 
 export type ServiceResponse<T> =

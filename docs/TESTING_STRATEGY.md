@@ -37,10 +37,27 @@ Unit tests should focus on the business logic of the application, which is prima
   - Test that it returns a `{ success: false, error: ... }` object when the API call fails.
   - Test that it correctly handles invalid JSON responses from the AI.
 
+- **`generateImage` function (nano-banana):**
+  - Test image generation with valid prompts and IDs
+  - Test error handling for failed generation requests
+  - Test proper response structure with GeneratedImage interface
+
+- **`convertGeneratedImageToCatalogItem` function:**
+  - Test conversion of GeneratedImage to CatalogItem format
+  - Test proper base64 encoding and file object creation
+  - Test different MIME types (PNG, JPEG) handling
+  - Test metadata preservation (prompt, ID, isGenerated flag)
+
 - **`generateCatalogLayout` function:**
   - Test that it constructs the prompt with the correct product list.
   - Test that it returns a `{ success: true, data: ... }` object on a successful API call.
   - Test that it returns a `{ success: false, error: ... }` object on a failed API call.
+
+### Current Test Coverage
+
+- **28 unit tests** covering all core functionality
+- **3 test suites**: hooks, services, components
+- **MSW mocking** for secure API testing without real API calls
 
 ## 3. Component Tests
 
@@ -49,13 +66,16 @@ Component tests should verify that components render correctly and respond to us
 - **`ImageUploader.tsx`:**
   - Test that it renders the file input.
   - Test that it calls the `onItemsChange` prop with the correct data when files are selected.
+  - Test enhanced delete button functionality and accessibility.
 
 - **`ImageEnhancer.tsx`:**
-  - Test that it renders the selected item for enhancement.
-  - Mock the `enhanceImage` service and test that clicking the "Enhance with AI" button calls the service.
-  - Test that the UI updates to a loading state while the enhancement is in progress.
-  - Test that the component updates the item with the new enhancement data on a successful response.
-  - Test that it displays an alert on a failed response.
+  - Test unified smart preset system (enhancement + generation)
+  - Test context-aware button behavior (blue for enhance, purple for generate)
+  - Mock the `enhanceImage` and `generateImage` services
+  - Test that smart presets work for both enhancement and generation modes
+  - Test loading states for both enhancement and generation
+  - Test proper error handling and dialog display
+  - Test 25 professional photography preset buttons
 
 - **`StylePrompt.tsx`:**
   - Test that the text area's value is controlled by the `prompt` prop.

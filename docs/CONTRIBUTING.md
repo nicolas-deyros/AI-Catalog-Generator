@@ -26,11 +26,21 @@ We welcome pull requests. For major changes, please open an issue first to discu
 
 To get started with the development environment, please follow the instructions in the [README.md](./README.md) file.
 
+### API Key Requirements
+
+This project uses Google Gemini AI for two main features:
+
+- **Image Enhancement**: Using Gemini 1.5 Flash model
+- **🍌 Nano-Banana Image Generation**: Using Gemini 2.5 Flash Image Preview model
+
+You'll need a valid `VITE_GEMINI_API_KEY` in your `.env.local` file.
+
 ### Development Workflow
 
 1.  Fork the repository and create your branch from `main`.
 2.  Make your changes.
-3.  Before submitting your changes, please run the code quality checks.
+3.  Test both enhancement and generation features if modifying AI functionality.
+4.  Before submitting your changes, please run the code quality checks.
 
 ### Code Quality Checks
 

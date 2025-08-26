@@ -5,18 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2025-08-26
 
 ### Added
 
-- **20 Professional Photography Preset Buttons**: Quick-access preset buttons in the ImageEnhancer component for instant professional enhancement styles:
-  - **High-Fashion Editorial**: Editorial photography with masterpiece quality and ultra-detailed focus
-  - **Cinematic Drama**: Dramatic lighting with volumetric effects and cinematic shadows
-  - **Portrait Styles**: Soft portraiture, golden hour glow, and vintage film looks
-  - **Professional Camera Effects**: Leica looks, macro details, anamorphic effects, and studio shots
-  - **Movement & Style Variants**: Dynamic movement, street style, minimalist aesthetic, and noir photography
-  - **One-Click Application**: Users can instantly apply professional enhancement prompts with a single click
-  - **Responsive Grid Layout**: Clean, organized preset buttons that adapt to different screen sizes
+- **🍌 Nano-Banana AI Image Generation**: Integrated Gemini 2.5 Flash Image Preview model for generating brand new product images from text descriptions
+- **Smart Preset System**: 25 professional photography preset buttons that intelligently enhance existing images or generate new ones based on context
+- **Unified AI Image Studio**: Single interface that seamlessly combines image enhancement and generation workflows
+- **Professional Photography Presets**: Added 5 specialized presets including Cinematic, Golden Hour, Professional, Vintage, and High-End styles
+- **AI Generated Image Badges**: Purple badges to distinguish AI-generated images from enhanced images
+- **Enhanced Test Coverage**: Added comprehensive unit tests for nano-banana image generation and conversion functionality
+
+### Changed
+
+- **ImageEnhancer Component**: Completely redesigned with unified smart interface replacing separate enhancement and generation sections
+- **Enhanced Delete Button**: Improved to 32px circular design with better accessibility and hover effects
+- **Service Architecture**: Extended geminiService with `generateImage()` and `convertGeneratedImageToCatalogItem()` functions
+- **TypeScript Types**: Added `GeneratedImage` interface and `isGenerated` flag to support new generation workflow
+
+### Technical Details
+
+- **Model**: Uses Gemini 2.5 Flash Image Preview (`gemini-2.5-flash-image-preview`) for image generation
+- **Workflow**: Smart preset buttons analyze context - blue buttons enhance selected images, purple buttons generate new images when no image is selected
+- **Integration**: Seamless conversion of generated images to catalog items with proper metadata and file handling
+
+### Improved
+
+- **User Experience**: Context-aware interface eliminates confusion between enhancement and generation features
+- **Performance**: Optimized image processing pipeline with better error handling and validation
+- **Developer Experience**: Enhanced debugging with improved console logging and error messages
+
+---
+
+## [1.0.0] - 2025-08-25
 
 - **Enhanced Delete Button UX**: Significantly improved image deletion experience:
   - **Larger, More Visible Button**: Increased size from 16px to 32px circular button for better usability
