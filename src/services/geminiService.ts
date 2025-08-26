@@ -1,5 +1,10 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { CatalogItem, ImageEnhancement, ServiceResponse } from '../types/types';
+import {
+  CatalogItem,
+  ImageEnhancement,
+  ServiceResponse,
+  GeneratedImage,
+} from '../types/types';
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
@@ -63,7 +68,7 @@ export const enhanceImage = async (
         'f/2.8',
         'f/16',
         'shallow depth',
-        'bokeh',
+        'bokeh', // cSpell:ignore bokeh
         'deep focus',
       ],
 
@@ -100,7 +105,7 @@ export const enhanceImage = async (
       quality: [
         'masterpiece',
         'photorealistic',
-        'hyperrealistic',
+        'hyperrealistic', // cSpell:ignore hyperrealistic
         'ultra-detailed',
         '8k',
         '4k',
@@ -113,7 +118,7 @@ export const enhanceImage = async (
         'canon eos',
         'sony alpha',
         'nikon',
-        'leica',
+        'leica', // cSpell:ignore leica
         'hasselblad',
         'fujifilm',
         'mamiya',
@@ -492,4 +497,118 @@ export const generateCatalogLayout = async (
       error: `Sorry, an error occurred while generating the catalog: ${errorMessage}`,
     };
   }
+};
+
+/**
+ * Generate new images using Gemini's image generation model (nano-banana implementation)
+ * @param prompt - Text description of the image to generate
+ * @param itemId - Unique identifier for the generated image
+ * @returns Promise<ServiceResponse<GeneratedImage>>
+ */
+export const generateImage = async (
+  prompt: string,
+  itemId: string
+): Promise<ServiceResponse<GeneratedImage>> => {
+  try {
+    // Use the specific model for image generation
+    const model = ai.getGenerativeModel({
+      model: 'gemini-2.5-flash-image-preview',
+    });
+
+    // Enhanced prompt for better product image generation
+    const enhancedPrompt = `Generate a high-quality product photography image: ${prompt}. 
+    Style: Professional product photography, clean background, high resolution, well-lit, commercial quality.`;
+
+    console.log('Generating image with prompt:', enhancedPrompt);
+
+    // Use the generateContent method to send the prompt
+    const result = await model.generateContent(enhancedPrompt);
+
+    // Check if the response contains the expected structure
+    if (
+      !result.response.candidates ||
+      result.response.candidates.length === 0
+    ) {
+      throw new Error('No image candidates returned from the API');
+    }
+
+    const candidate = result.response.candidates[0];
+    if (!candidate.content.parts || candidate.content.parts.length === 0) {
+      throw new Error('No content parts in the response');
+    }
+
+    const part = candidate.content.parts[0];
+    if (!part.inlineData || !part.inlineData.data) {
+      throw new Error('No inline data found in the response');
+    }
+
+    // The API returns the image as base64-encoded data
+    const imageData = part.inlineData.data;
+    const mimeType = part.inlineData.mimeType || 'image/png';
+
+    // Create object URL for display
+    const byteCharacters = atob(imageData);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: mimeType });
+    const objectURL = URL.createObjectURL(blob);
+
+    console.log('Image generated successfully');
+
+    return {
+      success: true,
+      data: {
+        id: itemId,
+        base64Data: imageData,
+        prompt: prompt,
+        mimeType: mimeType,
+        objectURL: objectURL,
+      },
+    };
+  } catch (error) {
+    console.error('Error generating image:', error);
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred.';
+    return {
+      success: false,
+      error: `Failed to generate image: ${errorMessage}`,
+    };
+  }
+};
+
+/**
+ * Convert a GeneratedImage to a CatalogItem for seamless integration
+ * @param generatedImage - The generated image data
+ * @returns CatalogItem
+ */
+export const convertGeneratedImageToCatalogItem = async (
+  generatedImage: GeneratedImage
+): Promise<CatalogItem> => {
+  // Convert base64 to File object
+  const byteCharacters = atob(generatedImage.base64Data);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const file = new File([byteArray], `generated-${generatedImage.id}.png`, {
+    type: generatedImage.mimeType,
+  });
+
+  // Generate a descriptive name based on the prompt
+  const name = `Generated: ${generatedImage.prompt.substring(0, 50)}${
+    generatedImage.prompt.length > 50 ? '...' : ''
+  }`;
+
+  return {
+    id: generatedImage.id,
+    file: file,
+    name: name,
+    objectURL: generatedImage.objectURL,
+    base64: `data:${generatedImage.mimeType};base64,${generatedImage.base64Data}`,
+    isGenerated: true,
+  };
 };

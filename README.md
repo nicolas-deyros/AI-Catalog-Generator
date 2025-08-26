@@ -4,88 +4,116 @@
 
 # AI Catalog Creator
 
-The AI Catalog Creator is a web application that leverages the power of Google's Gemini AI to help users create stunning, multi-page product catalogs. Users can upload product images, enhance them with AI-powered background removal and color correction, and then generate a complete HTML catalog based on a style prompt.
+Create stunning product catalogs with AI-powered image enhancement and generation using Google's Gemini AI.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1vaHU_8IzgJUte_Kj2P6vXVEPk-aFhMwu
+## ✨ Key Features
 
-## Features
+- **🍌 Nano-Banana AI Generation**: Generate brand new product images from text descriptions
+- **🎨 Smart Enhancement**: AI-powered image enhancement with 25+ professional photography presets
+- **📋 Catalog Creation**: Generate complete HTML catalogs with custom styling
+- **🔄 Unified Workflow**: Single interface for both enhancing existing images and generating new ones
 
-- **Multi-Step Catalog Creation:** A guided workflow to take you from product images to a finished catalog.
-- **Image Upload:** Upload multiple product images at once with drag-and-drop support.
-- **Professional Photography AI Enhancement:**
-  - **150+ Photography Terms Support:** Recognize professional camera angles, lens types, lighting conditions, and photography styles
-  - **Intelligent Enhancement:** Automatically apply appropriate enhancements based on photography terminology
-  - **Professional Effects:** Cinematic lighting, golden hour effects, vintage film looks, noir styles, and more
-  - **Background Removal:** AI-powered background isolation with precise edge detection
-  - **Color Grading:** Professional color correction using natural language prompts like "cinematic dramatic lighting"
-  - **Camera Simulation:** Support for lens effects (85mm, 50mm, telephoto, fisheye), aperture settings, and film stocks
-- **AI-Powered Content Generation:**
-  - Generate a complete, multi-page HTML catalog with Tailwind CSS.
-  - Provide a style prompt to guide the AI in creating a design that matches your brand.
-- **Live Preview:** Instantly preview the generated catalog within the application.
-- **Modern UI/UX:**
-  - Professional dialog components replace browser alerts for better user experience.
-  - Responsive design with Tailwind CSS.
-  - Accessible components with proper ARIA labels and keyboard navigation.
-  - Built-in photography examples and guidance for users.
-- **PDF Export:** Download your catalog as a high-quality PDF file with cross-browser compatibility.
+## 🚀 Quick Start
 
-## Project Structure
+1. **Clone and Install**
 
-The project is a well-organized Vite-based React application with a clean, modular structure:
+   ```bash
+   git clone https://github.com/nicolas-deyros/AI-Catalog-Generator.git
+   cd AI-Catalog-Generator
+   npm install
+   ```
 
+2. **Configure API Key**
+
+   ```bash
+   # Create .env.local file
+   echo "VITE_GEMINI_API_KEY=your_gemini_api_key" > .env.local
+   ```
+
+3. **Run Development Server**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Open Browser**
+   Navigate to `http://localhost:5173`
+
+## 🛠️ Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run test:unit    # Run unit tests
+npm run test:e2e     # Run end-to-end tests
+npm run lint         # Lint code
 ```
-.
-├── configs/             # All configuration files
-│   ├── eslint.config.js         # ESLint configuration
-│   ├── playwright.config.ts     # E2E testing configuration
-│   ├── tsconfig.json            # TypeScript configuration
-│   ├── vite.config.ts           # Vite build configuration
-│   └── vitest.config.ts         # Unit testing configuration
-├── docs/                # Documentation
-│   ├── CHANGELOG.md             # Version history and changes
-│   ├── CONTRIBUTING.md          # Contribution guidelines
-│   ├── PHOTOGRAPHY_ENHANCEMENT_SUMMARY.md  # Photography features guide
-│   ├── RECOMMENDATIONS.md       # Best practices and recommendations
-│   └── TESTING_STRATEGY.md      # Testing approach and guidelines
-├── tools/               # Development tools and linting configs
-│   ├── .lintstagedrc.json       # Staged files linting configuration
-│   ├── .prettierrc             # Code formatting rules
-│   ├── .stylelintrc.json        # CSS linting configuration
-│   ├── .textlintrc.json         # Documentation linting configuration
-│   └── cspell.json              # Spell checking configuration
-├── public/              # Static assets (favicon, etc.)
+
+## 🏗️ Tech Stack
+
+- **React 19** with TypeScript
+- **Vite 6** for blazing fast builds
+- **Google Gemini AI** for image processing and generation
+- **Tailwind CSS 4** for styling
+- **Vitest** for testing
+
+## 📝 How It Works
+
+1. **Upload Images** - Drag and drop product images
+2. **Smart Presets** - Choose from 25+ professional photography styles
+3. **AI Magic** - Enhance existing images or generate new ones with Gemini's nano-banana model
+4. **Generate Catalog** - Create beautiful HTML catalogs with AI-generated layouts
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+---
+
+_Powered by Google Gemini AI • Built with ❤️ and TypeScript_
+├── tools/ # Development tools and linting configs
+│ ├── .lintstagedrc.json # Staged files linting configuration
+│ ├── .prettierrc # Code formatting rules
+│ ├── .stylelintrc.json # CSS linting configuration
+│ ├── .textlintrc.json # Documentation linting configuration
+│ └── cspell.json # Spell checking configuration
+├── public/ # Static assets (favicon, etc.)
 ├── src/
-│   ├── components/      # React components
-│   │   ├── CatalogPreview.tsx    # PDF generation and preview
-│   │   ├── Dialog.tsx            # Modern dialog component
-│   │   ├── Header.tsx            # Application header
-│   │   ├── Icon.tsx              # Icon component library
-│   │   ├── ImageEnhancer.tsx     # AI image enhancement with photography support
-│   │   ├── ImageUploader.tsx     # File upload with drag-and-drop
-│   │   ├── Loader.tsx            # Loading spinner
-│   │   ├── ProgressStepper.tsx   # Step navigation
-│   │   └── StylePrompt.tsx       # Style prompt input
-│   ├── hooks/           # Custom React hooks
-│   │   └── useAppSteps.ts        # Application flow management
-│   ├── services/        # External API services
-│   │   └── geminiService.ts      # Google Gemini AI with photography terminology
-│   ├── types/           # TypeScript type definitions
-│   │   └── types.ts              # Shared type definitions
-│   ├── App.tsx          # Main application component
-│   └── index.tsx        # Application entry point
-├── tests/               # Test suites
-│   ├── e2e/             # End-to-end tests
-│   ├── setup/           # Test configuration and setup
-│   └── unit/            # Unit tests organized by feature
-├── .env                 # Environment variables (ignored by git)
-├── .env.example         # Environment variable template
-├── .gitignore           # Git ignore patterns
-├── .husky/              # Git hooks configuration
-├── index.html           # HTML entry point
-├── package.json         # Project dependencies and scripts
-└── README.md            # This file
-```
+│ ├── components/ # React components
+│ │ ├── CatalogPreview.tsx # PDF generation and preview
+│ │ ├── Dialog.tsx # Modern dialog component
+│ │ ├── Header.tsx # Application header
+│ │ ├── Icon.tsx # Icon component library
+│ │ ├── ImageEnhancer.tsx # AI image enhancement with photography support
+│ │ ├── ImageUploader.tsx # File upload with drag-and-drop
+│ │ ├── Loader.tsx # Loading spinner
+│ │ ├── ProgressStepper.tsx # Step navigation
+│ │ └── StylePrompt.tsx # Style prompt input
+│ ├── hooks/ # Custom React hooks
+│ │ └── useAppSteps.ts # Application flow management
+│ ├── services/ # External API services
+│ │ └── geminiService.ts # Google Gemini AI with photography terminology
+│ ├── types/ # TypeScript type definitions
+│ │ └── types.ts # Shared type definitions
+│ ├── App.tsx # Main application component
+│ └── index.tsx # Application entry point
+├── tests/ # Test suites
+│ ├── e2e/ # End-to-end tests
+│ ├── setup/ # Test configuration and setup
+│ └── unit/ # Unit tests organized by feature
+├── .env # Environment variables (ignored by git)
+├── .env.example # Environment variable template
+├── .gitignore # Git ignore patterns
+├── .husky/ # Git hooks configuration
+├── index.html # HTML entry point
+├── package.json # Project dependencies and scripts
+└── README.md # This file
+
+````
 
 ## Technologies Used
 
@@ -198,7 +226,7 @@ npm run test:unit:coverage
 
 # Interactive UI
 npm run test:unit:ui
-```
+````
 
 ### 🌐 **End-to-End Testing**
 

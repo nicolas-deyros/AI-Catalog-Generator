@@ -26,20 +26,25 @@ While the `eslint-plugin-jsx-a11y` plugin has been added to catch common accessi
 
 The application provides a solid workflow, and significant UX improvements have been implemented.
 
-**Recent Improvements (Enhancement-2 Branch):**
+**Recent Improvements (v1.1.0 - Nano-Banana Implementation):**
 
-- **✅ Modern Dialog System:** Replaced browser `alert()` calls with a custom `Dialog` component featuring:
-  - Native HTML5 `<dialog>` element with proper backdrop
-  - Accessible design with ESC key support and focus management
-  - Visual indicators for different dialog types (info, warning, error, success)
-  - Centered positioning with smooth animations
+- **🍌 Unified AI Image Studio**: Combined enhancement and generation in single interface
+- **Smart Preset System**: 25 professional photography presets with context-aware functionality
+- **Enhanced Delete Button**: Improved to 32px circular design with better accessibility
+- **Professional Dialog Components**: Replaced browser alerts with accessible dialog modals
+- **Enhanced User Guidance**: Built-in photography examples and smart button indicators
+- **Improved Visual Feedback**: Color-coded buttons (blue for enhance, purple for generate)
+- **AI Generated Badges**: Purple badges to distinguish AI-generated content
 
 **Additional Recommendations:**
 
-- **Toast Notifications:** Consider adding non-blocking toast notifications for success messages and non-critical information.
-- **Granular Loading States:** Instead of a general loading spinner for the entire enhancement preview, consider showing a loading indicator on the specific item being enhanced. This provides better feedback to the user.
-- **Optimistic UI Updates:** For actions like reverting an enhancement, you could apply the change in the UI immediately while the request is being processed in the background. This can make the application feel faster and more responsive.
-- **Progress Indicators:** Add more detailed progress feedback during AI processing steps.
+- **Generation History**: Consider adding a history panel for generated images
+- **Batch Generation**: Allow generating multiple variations of the same prompt
+- **Advanced Prompt Builder**: Visual prompt construction tool for complex scenes
+- **Toast Notifications**: Consider adding non-blocking toast notifications for success messages and non-critical information.
+- **Granular Loading States**: Instead of a general loading spinner for the entire enhancement preview, consider showing a loading indicator on the specific item being enhanced. This provides better feedback to the user.
+- **Optimistic UI Updates**: For actions like reverting an enhancement, you could apply the change in the UI immediately while the request is being processed in the background. This can make the application feel faster and more responsive.
+- **Progress Indicators**: Add more detailed progress feedback during AI processing steps.
 
 ## 4. Code Quality and Documentation
 
