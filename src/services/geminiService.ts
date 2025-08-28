@@ -500,6 +500,155 @@ export const generateCatalogLayout = async (
 };
 
 /**
+ * Construct enhanced prompts using Google's 6-element structure for better AI image generation
+ * Based on: https://blog.google/products/gemini/image-generation-prompting-tips/
+ *
+ * 6 Elements:
+ * 1. Subject: Who or what is in the image
+ * 2. Composition: How the shot is framed
+ * 3. Action: What is happening
+ * 4. Location: Where the scene takes place
+ * 5. Style: Overall aesthetic
+ * 6. Editing Instructions: Specific modifications
+ */
+const constructEnhancedPrompt = (
+  userPrompt: string,
+  elements?: PromptElement
+): string => {
+  // If elements are provided, use structured approach
+  if (elements) {
+    const promptParts: string[] = [];
+
+    // 1. Subject (who/what)
+    if (elements.subject) {
+      promptParts.push(elements.subject);
+    }
+
+    // 2. Composition (framing)
+    if (elements.composition) {
+      promptParts.push(`shot in ${elements.composition}`);
+    }
+
+    // 3. Action (what's happening)
+    if (elements.action) {
+      promptParts.push(`${elements.action}`);
+    }
+
+    // 4. Location (where)
+    if (elements.location) {
+      promptParts.push(`in ${elements.location}`);
+    }
+
+    // 5. Style (aesthetic)
+    if (elements.style) {
+      promptParts.push(`with ${elements.style}`);
+    }
+
+    // 6. Editing Instructions
+    if (elements.editingInstructions) {
+      promptParts.push(`ensure ${elements.editingInstructions}`);
+    }
+
+    const structuredPrompt = promptParts.join(', ');
+    return `${structuredPrompt}. Professional photography, high quality, well-lit, commercial standard.`;
+  }
+
+  // Analyze user prompt for implicit 6-element structure
+  const analyzeUserPrompt = (prompt: string): PromptElement => {
+    const lowerPrompt = prompt.toLowerCase();
+    const detectedElements: PromptElement = {};
+
+    // Subject detection patterns
+    const subjectPatterns = [
+      /(?:a|an|the)\s+([\w\s]+?)\s+(?:with|in|at|on)/,
+      /(product|item|object|device|gadget|tool|accessory)/,
+      /(watch|phone|laptop|bag|shoes|jewelry|clothing)/,
+    ];
+
+    subjectPatterns.forEach((pattern) => {
+      const match = lowerPrompt.match(pattern);
+      if (match && !detectedElements.subject) {
+        detectedElements.subject = match[1] || match[0];
+      }
+    });
+
+    // Composition detection
+    const compositionTerms = {
+      'close-up': 'extreme close-up with shallow depth of field',
+      macro: 'macro photography with intricate detail focus',
+      'wide shot': 'wide shot capturing full context',
+      portrait: 'portrait orientation with centered composition',
+      overhead: 'overhead flat lay composition',
+      angle: 'dynamic angle composition',
+    };
+
+    Object.entries(compositionTerms).forEach(([term, description]) => {
+      if (lowerPrompt.includes(term)) {
+        detectedElements.composition = description;
+      }
+    });
+
+    // Action detection
+    const actionTerms = {
+      floating: 'suspended in mid-air with dynamic positioning',
+      splash: 'captured with dynamic splash effects',
+      motion: 'showing natural movement and flow',
+      opening: 'being opened to reveal interior details',
+      using: 'being actively used in natural setting',
+    };
+
+    Object.entries(actionTerms).forEach(([term, description]) => {
+      if (lowerPrompt.includes(term)) {
+        detectedElements.action = description;
+      }
+    });
+
+    // Location detection
+    const locationTerms = {
+      studio: 'professional photography studio with seamless backdrop',
+      outdoor: 'natural outdoor environment with organic lighting',
+      marble: 'elegant marble surface with luxury aesthetic',
+      wood: 'natural wood surface with warm textures',
+      black: 'sophisticated black background with dramatic contrast',
+      white: 'clean white background with minimal distraction',
+    };
+
+    Object.entries(locationTerms).forEach(([term, description]) => {
+      if (lowerPrompt.includes(term)) {
+        detectedElements.location = description;
+      }
+    });
+
+    // Style detection (use existing photography analysis)
+    if (lowerPrompt.includes('cinematic')) {
+      detectedElements.style =
+        'cinematic photography with dramatic lighting and film-quality aesthetics';
+    } else if (lowerPrompt.includes('vintage')) {
+      detectedElements.style =
+        'vintage photography with analog film characteristics and nostalgic mood';
+    } else if (lowerPrompt.includes('golden hour')) {
+      detectedElements.style =
+        'golden hour photography with warm, ethereal lighting';
+    } else if (
+      lowerPrompt.includes('luxury') ||
+      lowerPrompt.includes('premium')
+    ) {
+      detectedElements.style =
+        'luxury product photography with premium aesthetic and high-end finish';
+    } else {
+      detectedElements.style =
+        'professional commercial photography with clean, modern aesthetic';
+    }
+
+    return detectedElements;
+  };
+
+  // Analyze and enhance the user prompt
+  const analyzedElements = analyzeUserPrompt(userPrompt);
+  return constructEnhancedPrompt(userPrompt, analyzedElements);
+};
+
+/**
  * Generate new images using Gemini's image generation model (nano-banana implementation)
  * @param prompt - Text description of the image to generate
  * @param itemId - Unique identifier for the generated image
@@ -507,22 +656,25 @@ export const generateCatalogLayout = async (
  */
 export const generateImage = async (
   prompt: string,
-  itemId: string
+  itemId: string,
+  elements?: PromptElement
 ): Promise<ServiceResponse<GeneratedImage>> => {
   try {
-    // Use the specific model for image generation
-    const model = ai.getGenerativeModel({
+    // Use Google's 6-element enhanced prompt construction
+    const enhancedPrompt = constructEnhancedPrompt(prompt, elements);
+
+    console.log(
+      'Generating image with enhanced 6-element prompt:',
+      enhancedPrompt
+    );
+
+    // Use the same API pattern as the working enhanceImage function
+    const result = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image-preview',
+      contents: {
+        parts: [{ text: enhancedPrompt }],
+      },
     });
-
-    // Enhanced prompt for better product image generation
-    const enhancedPrompt = `Generate a high-quality product photography image: ${prompt}. 
-    Style: Professional product photography, clean background, high resolution, well-lit, commercial quality.`;
-
-    console.log('Generating image with prompt:', enhancedPrompt);
-
-    // Use the generateContent method to send the prompt
-    const result = await model.generateContent(enhancedPrompt);
 
     // Check if the response contains the expected structure
     if (
