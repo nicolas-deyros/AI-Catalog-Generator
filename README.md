@@ -6,16 +6,16 @@
 
 Create stunning product catalogs with AI-powered image enhancement and generation using Google's Gemini AI.
 
-## ✨ Key Features
+## ✨ Features
 
-- **🍌 Nano-Banana AI Generation**: Generate brand new product images from text descriptions
-- **🎨 Smart Enhancement**: AI-powered image enhancement with 25+ professional photography presets
+- **� AI Image Enhancement**: Enhance existing product images with professional photography styles
+- **� AI Image Generation**: Generate brand new product images from text descriptions
 - **📋 Catalog Creation**: Generate complete HTML catalogs with custom styling
-- **🔄 Unified Workflow**: Single interface for both enhancing existing images and generating new ones
+- **🔄 Unified Interface**: Single workflow for both enhancing and generating images
 
 ## 🚀 Quick Start
 
-1. **Clone and Install**
+1. **Clone and install**
 
    ```bash
    git clone https://github.com/nicolas-deyros/AI-Catalog-Generator.git
@@ -23,50 +23,43 @@ Create stunning product catalogs with AI-powered image enhancement and generatio
    npm install
    ```
 
-2. **Configure API Key**
+2. **Add your Gemini API key**
 
    ```bash
-   # Create .env.local file
-   echo "VITE_GEMINI_API_KEY=your_gemini_api_key" > .env.local
+   echo "VITE_GEMINI_API_KEY=your_api_key_here" > .env.local
    ```
 
-3. **Run Development Server**
-
+3. **Start the app**
    ```bash
    npm run dev
    ```
 
-4. **Open Browser**
-   Navigate to `http://localhost:5173`
+## 🛠️ Tech Stack
 
-## 🛠️ Available Scripts
+- **React 19** with TypeScript
+- **Vite 6** for fast builds
+- **Google Gemini AI** for image processing
+- **Tailwind CSS 4** for styling
+
+## 📝 How It Works
+
+1. Upload product images or describe what you want
+2. Choose from 20+ professional photography presets
+3. Let AI enhance existing images or generate new ones
+4. Generate beautiful HTML catalogs
+
+## � Development
 
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
-npm run test:unit    # Run unit tests
-npm run test:e2e     # Run end-to-end tests
-npm run lint         # Lint code
+npm run test         # Run all tests
+npm run lint         # Check code quality
 ```
-
-## 🏗️ Tech Stack
-
-- **React 19** with TypeScript
-- **Vite 6** for blazing fast builds
-- **Google Gemini AI** for image processing and generation
-- **Tailwind CSS 4** for styling
-- **Vitest** for testing
-
-## 📝 How It Works
-
-1. **Upload Images** - Drag and drop product images
-2. **Smart Presets** - Choose from 25+ professional photography styles
-3. **AI Magic** - Enhance existing images or generate new ones with Gemini's nano-banana model
-4. **Generate Catalog** - Create beautiful HTML catalogs with AI-generated layouts
 
 ## 🤝 Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 📄 License
 
@@ -75,129 +68,6 @@ MIT License - see LICENSE file for details.
 ---
 
 _Powered by Google Gemini AI • Built with ❤️ and TypeScript_
-├── tools/ # Development tools and linting configs
-│ ├── .lintstagedrc.json # Staged files linting configuration
-│ ├── .prettierrc # Code formatting rules
-│ ├── .stylelintrc.json # CSS linting configuration
-│ ├── .textlintrc.json # Documentation linting configuration
-│ └── cspell.json # Spell checking configuration
-├── public/ # Static assets (favicon, etc.)
-├── src/
-│ ├── components/ # React components
-│ │ ├── CatalogPreview.tsx # PDF generation and preview
-│ │ ├── Dialog.tsx # Modern dialog component
-│ │ ├── Header.tsx # Application header
-│ │ ├── Icon.tsx # Icon component library
-│ │ ├── ImageEnhancer.tsx # AI image enhancement with photography support
-│ │ ├── ImageUploader.tsx # File upload with drag-and-drop
-│ │ ├── Loader.tsx # Loading spinner
-│ │ ├── ProgressStepper.tsx # Step navigation
-│ │ └── StylePrompt.tsx # Style prompt input
-│ ├── hooks/ # Custom React hooks
-│ │ └── useAppSteps.ts # Application flow management
-│ ├── services/ # External API services
-│ │ └── geminiService.ts # Google Gemini AI with photography terminology
-│ ├── types/ # TypeScript type definitions
-│ │ └── types.ts # Shared type definitions
-│ ├── App.tsx # Main application component
-│ └── index.tsx # Application entry point
-├── tests/ # Test suites
-│ ├── e2e/ # End-to-end tests
-│ ├── setup/ # Test configuration and setup
-│ └── unit/ # Unit tests organized by feature
-├── .env # Environment variables (ignored by git)
-├── .env.example # Environment variable template
-├── .gitignore # Git ignore patterns
-├── .husky/ # Git hooks configuration
-├── index.html # HTML entry point
-├── package.json # Project dependencies and scripts
-└── README.md # This file
-
-````
-
-## Technologies Used
-
-- **Frontend:** [React](https://react.dev/) 19.1.1, [TypeScript](https://www.typescriptlang.org/) ~5.8.2, [Vite](https://vitejs.dev/) 6+ with Rolldown
-- **AI:** [Google Gemini](https://ai.google.dev/) via the `@google/genai` SDK
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) 4.1.12
-- **Testing & Quality:**
-  - [Vitest](https://vitest.dev/) 3.2.4 for unit testing with security isolation
-  - [Playwright](https://playwright.dev/) 1.55.0 for end-to-end testing
-  - [React Testing Library](https://testing-library.com/) 16.3.0 for component testing
-  - [MSW](https://mswjs.io/) 2.10.5 for API mocking and secure test environments
-- **Linting & Code Quality:**
-  - [ESLint](https://eslint.org/) 9.33.0 with TypeScript support
-  - [stylelint](https://stylelint.io/) for CSS-in-JS linting
-  - [textlint](https://textlint.github.io/) for documentation quality
-  - [cspell](https://cspell.org/) for comprehensive spell checking
-- **Formatting:** [Prettier](https://prettier.io/) with consistent code style
-- **Git Hooks:** [Husky](https://typicode.github.io/husky/) 9.1.7 with lint-staged for pre-commit quality checks
-- **Commit Standards:** [Commitlint](https://commitlint.js.org/) for conventional commit messages
-
-## Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18 or higher recommended)
-- An API key for the Gemini API. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
-
-### Installation and Setup
-
-1.  **Clone the repository:**
-
-    ```bash
-    git clone <repository-url>
-    cd <repository-directory>
-    ```
-
-2.  **Install dependencies:**
-
-    ```bash
-    npm install
-    ```
-
-3.  **Set up your environment variables:**
-    - Create a `.env.local` file in the root of the project by copying the `.env` template.
-    - Open the `.env.local` file and add your Gemini API key:
-      ```
-      VITE_GEMINI_API_KEY="YOUR_API_KEY_HERE"
-      ```
-
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-    The application should now be running on `http://localhost:5173` (or another port if 5173 is in use).
-
-## Available Scripts
-
-This project includes several scripts to help with development and code quality.
-
-- `npm run dev`: Starts the development server.
-- `npm run build`: Builds the application for production.
-- `npm run preview`: Previews the production build locally.
-- `npm run test`: Runs both unit and E2E tests.
-- `npm run test:unit`: Runs unit tests with Vitest.
-- `npm run test:unit:watch`: Runs unit tests in watch mode.
-- `npm run test:unit:ui`: Opens Vitest UI for interactive testing.
-- `npm run test:unit:coverage`: Runs unit tests with coverage reporting.
-- `npm run test:e2e`: Runs end-to-end tests with Playwright.
-- `npm run test:e2e:ui`: Opens Playwright UI for interactive E2E testing.
-- `npm run test:e2e:headed`: Runs E2E tests in headed mode (visible browser).
-- `npm run test:e2e:debug`: Runs E2E tests in debug mode.
-- `npm run lint`: Runs both ESLint and stylelint to check for code quality issues.
-- `npm run lint:fix`: Automatically fixes linting issues where possible.
-- `npm run format`: Formats all files with Prettier.
-- `npm run format:check`: Checks for formatting issues without modifying files.
-- `npm run type-check`: Runs TypeScript type checking without emitting files.
-- `npm run quality`: Runs linting, type checking, and unit tests together.
-- `npm run pre-commit`: Manually runs the pre-commit hooks (lint-staged).
-
-## Testing Framework
-
-This project implements a comprehensive, security-focused testing strategy with multiple layers of validation:
-
-### 🧪 **Unit Testing** (22 Tests ✅)
 
 **Framework**: [Vitest](https://vitest.dev/) with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
@@ -226,7 +96,7 @@ npm run test:unit:coverage
 
 # Interactive UI
 npm run test:unit:ui
-````
+```
 
 ### 🌐 **End-to-End Testing**
 
